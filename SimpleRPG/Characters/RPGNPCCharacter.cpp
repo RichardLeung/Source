@@ -9,15 +9,11 @@
 #include "SimpleRPG/RPGGameInstanceBase.h"
 #include "SimpleRPG/RPGPlayerControllerBase.h"
 
-// Sets default values
 ARPGNPCCharacter::ARPGNPCCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("WidgetComponent"));
 	WidgetComponent->SetupAttachment(GetRootComponent());
-
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComponent"));
 	Sphere->SetupAttachment(GetRootComponent());
 	Sphere->SetSphereRadius(InteractRange);
@@ -61,7 +57,6 @@ void ARPGNPCCharacter::BeginPlay()
 	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARPGNPCCharacter::OnSphereEndOverlap);
 }
 
-// Called every frame
 void ARPGNPCCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -79,7 +74,6 @@ void ARPGNPCCharacter::Tick(float DeltaTime)
 	}
 }
 
-// Called to bind functionality to input
 void ARPGNPCCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -91,7 +85,6 @@ void ARPGNPCCharacter::OnInteract()
 	{
 		k2_OnInteract();
 	}
-	
 }
 
 bool ARPGNPCCharacter::InShowRange()
@@ -99,10 +92,8 @@ bool ARPGNPCCharacter::InShowRange()
 	if(PlayerCharacter)
 	{
 		float Distance = FVector::Dist(GetActorLocation(),PlayerCharacter->GetActorLocation());
-		// Check to see if Tank is in range
 		if(Distance <= ShowRange && Distance >= InteractRange)
 		{
-			// If in range, rotate turret toward Tank
 			return true;
 		}
 	}

@@ -50,12 +50,10 @@ ARPGPlayerCharacter::ARPGPlayerCharacter()
 	// 实例化ASC
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("Ability System Component"));
 
-	// Create the attribute set, this replicates by default
 	// 创建属性集，这个属性集默认是可以被复制的
 	AttributeSet = CreateDefaultSubobject<URPGAttributeSet>(TEXT("AttributeSet"));
 }
 
-// Called when the game starts or when spawned
 void ARPGPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -100,34 +98,6 @@ UAbilitySystemComponent* ARPGPlayerCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
-
-// void ARPGPlayerCharacter::StoreInitialCameraTransform()
-// {
-// 	InitialCameraLocation = Camera->GetComponentLocation();
-// 	InitialCameraRotation = Camera->GetComponentRotation();
-// }
-//
-// void ARPGPlayerCharacter::RestoreCameraTransform()
-// {
-// 	TargetCameraLocation = InitialCameraLocation;
-// 	TargetCameraRotation = InitialCameraRotation;
-// }
-
-// bool ARPGPlayerCharacter::IsCameraRestored() const
-// {
-// 	FVector CurrentCameraLocation = Camera->GetComponentLocation();
-// 	FRotator CurrentCameraRotation = Camera->GetComponentRotation();
-//
-// 	// 设置一个阈值，表示摄像头位置和旋转的最小差异
-// 	float LocationTolerance = 10.f; // 单位：厘米
-// 	float RotationTolerance = 1.f;  // 单位：度
-//
-// 	// 如果当前摄像头位置和旋转与目标位置和旋转之间的差异小于阈值，则认为摄像头已经还原
-// 	return FVector::Dist(CurrentCameraLocation, InitialCameraLocation) <= LocationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Yaw) <= RotationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Pitch) <= RotationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Roll) <= RotationTolerance;
-// }
 
 bool ARPGPlayerCharacter::CanAttack()
 {
@@ -323,25 +293,6 @@ ARPGPlayerControllerBase* ARPGPlayerCharacter::GetPlayerController() const
 	return Cast<ARPGPlayerControllerBase>(GetController());
 }
 
-// void ARPGPlayerCharacter::SetupDialogueCamera(ARPGNPCCharacter* NPC)
-// {
-// 	if (!NPC) return;
-// 	if (IsInteracting)
-// 	{
-// 		// 如果正在交互，那么恢复摄像头
-// 		RestoreCameraTransform();
-// 		return;
-// 	}
-// 	StoreInitialCameraTransform();
-// 	FVector PlayerLocation = GetActorLocation();
-// 	FVector NPCLocation = NPC->GetActorLocation();
-// 	FVector MidPoint = (PlayerLocation + NPCLocation) * 0.5f;
-// 	FVector CameraOffset = FVector(100.f, 100.f, 50.f); // 你可以根据需要调整这个值
-// 	TargetCameraLocation = MidPoint + CameraOffset;
-// 	TargetCameraRotation = UKismetMathLibrary::FindLookAtRotation(TargetCameraLocation, MidPoint);
-// 	IsInteracting = true;
-// }
-
 void ARPGPlayerCharacter::Arm()
 {
 	k2_Arm();
@@ -351,15 +302,6 @@ void ARPGPlayerCharacter::DisArm()
 {
 	k2_DisArm();
 }
-
-// void ARPGPlayerCharacter::OnInventoryItemClick(UInventoryObject* InventoryObject)
-// {
-// 	UE_LOG(LogTemp, Warning, TEXT("ARPGPlayerCharacter::OnInventoryItemClick"));
-// 	if (InventoryObject)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("ARPGPlayerCharacter::OnInventoryItemClick %s"), *InventoryObject.);
-// 	}	
-// }
 
 void ARPGPlayerCharacter::OnHealthChanged()
 {
