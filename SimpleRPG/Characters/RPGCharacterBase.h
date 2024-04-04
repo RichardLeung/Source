@@ -30,7 +30,6 @@ class SIMPLERPG_API ARPGCharacterBase : public ACharacter, public IAbilitySystem
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	ARPGCharacterBase();
 
 	// ASC本质上是一个UActorComponent,用于处理整个框架下的交互逻辑，包括使用技能（GameplayAbility）、包含属性（AttributeSet）、处理各种效果（GameplayEffect）
@@ -65,7 +64,6 @@ public:
 
 	
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
@@ -100,10 +98,8 @@ protected:
 
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
+	
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 private:

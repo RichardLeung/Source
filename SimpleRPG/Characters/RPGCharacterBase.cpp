@@ -20,10 +20,8 @@
 #include "SimpleRPG/Datas/WeaponData.h"
 #include "SimpleRPG/Widgets/GameHUD.h"
 
-// Sets default values
 ARPGCharacterBase::ARPGCharacterBase()
 {
-	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
@@ -55,7 +53,6 @@ ARPGCharacterBase::ARPGCharacterBase()
 	AttributeSet = CreateDefaultSubobject<URPGAttributeSet>(TEXT("AttributeSet"));
 }
 
-// Called when the game starts or when spawned
 void ARPGCharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -100,34 +97,6 @@ UAbilitySystemComponent* ARPGCharacterBase::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
-
-// void ARPGCharacterBase::StoreInitialCameraTransform()
-// {
-// 	InitialCameraLocation = Camera->GetComponentLocation();
-// 	InitialCameraRotation = Camera->GetComponentRotation();
-// }
-//
-// void ARPGCharacterBase::RestoreCameraTransform()
-// {
-// 	TargetCameraLocation = InitialCameraLocation;
-// 	TargetCameraRotation = InitialCameraRotation;
-// }
-
-// bool ARPGCharacterBase::IsCameraRestored() const
-// {
-// 	FVector CurrentCameraLocation = Camera->GetComponentLocation();
-// 	FRotator CurrentCameraRotation = Camera->GetComponentRotation();
-//
-// 	// 设置一个阈值，表示摄像头位置和旋转的最小差异
-// 	float LocationTolerance = 10.f; // 单位：厘米
-// 	float RotationTolerance = 1.f;  // 单位：度
-//
-// 	// 如果当前摄像头位置和旋转与目标位置和旋转之间的差异小于阈值，则认为摄像头已经还原
-// 	return FVector::Dist(CurrentCameraLocation, InitialCameraLocation) <= LocationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Yaw) <= RotationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Pitch) <= RotationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Roll) <= RotationTolerance;
-// }
 
 bool ARPGCharacterBase::CanAttack()
 {
@@ -323,25 +292,6 @@ ARPGPlayerControllerBase* ARPGCharacterBase::GetPlayerController() const
 	return Cast<ARPGPlayerControllerBase>(GetController());
 }
 
-// void ARPGCharacterBase::SetupDialogueCamera(ARPGNPCCharacter* NPC)
-// {
-// 	if (!NPC) return;
-// 	if (IsInteracting)
-// 	{
-// 		// 如果正在交互，那么恢复摄像头
-// 		RestoreCameraTransform();
-// 		return;
-// 	}
-// 	StoreInitialCameraTransform();
-// 	FVector PlayerLocation = GetActorLocation();
-// 	FVector NPCLocation = NPC->GetActorLocation();
-// 	FVector MidPoint = (PlayerLocation + NPCLocation) * 0.5f;
-// 	FVector CameraOffset = FVector(100.f, 100.f, 50.f); // 你可以根据需要调整这个值
-// 	TargetCameraLocation = MidPoint + CameraOffset;
-// 	TargetCameraRotation = UKismetMathLibrary::FindLookAtRotation(TargetCameraLocation, MidPoint);
-// 	IsInteracting = true;
-// }
-
 void ARPGCharacterBase::Arm()
 {
 	k2_Arm();
@@ -352,14 +302,6 @@ void ARPGCharacterBase::DisArm()
 	k2_DisArm();
 }
 
-// void ARPGCharacterBase::OnInventoryItemClick(UInventoryObject* InventoryObject)
-// {
-// 	UE_LOG(LogTemp, Warning, TEXT("ARPGCharacterBase::OnInventoryItemClick"));
-// 	if (InventoryObject)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("ARPGCharacterBase::OnInventoryItemClick %s"), *InventoryObject.);
-// 	}	
-// }
 
 void ARPGCharacterBase::OnHealthChanged()
 {
