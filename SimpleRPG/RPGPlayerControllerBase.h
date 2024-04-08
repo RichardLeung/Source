@@ -9,7 +9,6 @@
 #include "RPGPlayerControllerBase.generated.h"
 
 class UItemData;
-class UGameHUD;
 
 /**
  * 
@@ -24,14 +23,6 @@ public:
 	ARPGPlayerControllerBase();
 	
 	virtual void BeginPlay() override;
-	
-	// Reference to the BP_CounterUI class
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets")
-	TSubclassOf<class UUserWidget> GameHUDClass;
-
-	// Pointer to the created Counter UI instance
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Widgets")
-	UGameHUD* GameHUD;
 	
 	/** Map of all items owned by this player, from definition to data */
 	// 由此玩家拥有的所有道具的映射，从定义到数据

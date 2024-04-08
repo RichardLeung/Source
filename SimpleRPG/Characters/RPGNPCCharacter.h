@@ -54,9 +54,6 @@ public:
 
 	virtual void OnInteract() override;
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void k2_OnInteract();
-
 private:
 	UPROPERTY()
 	class ARPGCharacterBase* PlayerCharacter;
@@ -66,6 +63,4 @@ private:
 	
 	UFUNCTION()
 	bool InShowRange();
-
-	
 };

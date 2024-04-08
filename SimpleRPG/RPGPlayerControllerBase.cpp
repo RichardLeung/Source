@@ -18,16 +18,6 @@ ARPGPlayerControllerBase::ARPGPlayerControllerBase()
 void ARPGPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
-	// Check if the CounterUIClass is valid
-	if (GameHUDClass)
-	{
-		// Create and add the Counter UI to the viewport
-		GameHUD = CreateWidget<UGameHUD>(GetWorld(), GameHUDClass);
-		if (GameHUD)
-		{
-			GameHUD->AddToViewport();
-		}
-	}
 }
 
 bool ARPGPlayerControllerBase::GetInventoryItemData(UItemData* Item, FRPGItemData& ItemData) const

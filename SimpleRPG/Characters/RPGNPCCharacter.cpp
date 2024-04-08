@@ -83,15 +83,17 @@ void ARPGNPCCharacter::Tick(float DeltaTime)
 void ARPGNPCCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+	
 }
 
 void ARPGNPCCharacter::OnInteract()
 {
 	if(PlayerCharacter)
 	{
-		k2_OnInteract();
+		UE_LOG(LogTemp, Warning, TEXT("与NPC交互"));
+		// 与NPC对话
+		PlayerCharacter->SetInteractingNPC(this);
 	}
-	
 }
 
 bool ARPGNPCCharacter::InShowRange()
