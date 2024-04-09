@@ -92,7 +92,8 @@ void ARPGNPCCharacter::OnInteract()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("与NPC交互"));
 		// 与NPC对话
-		PlayerCharacter->SetInteractingNPC(this);
+		// PlayerCharacter->SetInteractingNPC(this);
+		k2_OnInteract();
 	}
 }
 

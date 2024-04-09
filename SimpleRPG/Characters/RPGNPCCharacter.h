@@ -54,6 +54,9 @@ public:
 
 	virtual void OnInteract() override;
 
+	UFUNCTION(BlueprintImplementableEvent, Category="NPC")
+	void k2_OnInteract();
+
 private:
 	UPROPERTY()
 	class ARPGCharacterBase* PlayerCharacter;
