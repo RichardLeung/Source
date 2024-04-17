@@ -151,10 +151,6 @@ private:
 
 	void Interact();
 
-	void Menu();
-	
-	void Map();
-
 	void Test();
 	
 	ARPGPlayerControllerBase* GetPlayerController() const;

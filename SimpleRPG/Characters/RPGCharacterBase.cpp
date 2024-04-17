@@ -162,9 +162,6 @@ void ARPGCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		// PEI->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Jump);
 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Attack);
 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Interact);
-		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Menu);
-		PEI->BindAction(MapAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Map);
-		PEI->BindAction(TestAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Test);
 	}
 }
 
@@ -304,43 +301,10 @@ void ARPGCharacterBase::Interact()
 	}
 }
 
-void ARPGCharacterBase::Menu()
-{
-	UE_LOG(LogTemp, Warning, TEXT("菜单"));
-	IsShowMenu = !IsShowMenu;
-	OnMenuChanged(IsShowMenu);
-}
-
-void ARPGCharacterBase::Map()
-{
-	UE_LOG(LogTemp, Warning, TEXT("地图"));
-	IsShowMap = !IsShowMap;
-	OnMapChanged(IsShowMap);
-}
-
 ARPGPlayerControllerBase* ARPGCharacterBase::GetPlayerController() const
 {
 	return Cast<ARPGPlayerControllerBase>(GetController());
 }
-
-// void ARPGCharacterBase::SetupDialogueCamera(ARPGNPCCharacter* NPC)
-// {
-// 	if (!NPC) return;
-// 	if (IsInteracting)
-// 	{
-// 		// 如果正在交互，那么恢复摄像头
-// 		RestoreCameraTransform();
-// 		return;
-// 	}
-// 	StoreInitialCameraTransform();
-// 	FVector PlayerLocation = GetActorLocation();
-// 	FVector NPCLocation = NPC->GetActorLocation();
-// 	FVector MidPoint = (PlayerLocation + NPCLocation) * 0.5f;
-// 	FVector CameraOffset = FVector(100.f, 100.f, 50.f); // 你可以根据需要调整这个值
-// 	TargetCameraLocation = MidPoint + CameraOffset;
-// 	TargetCameraRotation = UKismetMathLibrary::FindLookAtRotation(TargetCameraLocation, MidPoint);
-// 	IsInteracting = true;
-// }
 
 void ARPGCharacterBase::Arm()
 {
@@ -351,15 +315,6 @@ void ARPGCharacterBase::DisArm()
 {
 	k2_DisArm();
 }
-
-// void ARPGCharacterBase::OnInventoryItemClick(UInventoryObject* InventoryObject)
-// {
-// 	UE_LOG(LogTemp, Warning, TEXT("ARPGCharacterBase::OnInventoryItemClick"));
-// 	if (InventoryObject)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("ARPGCharacterBase::OnInventoryItemClick %s"), *InventoryObject.);
-// 	}	
-// }
 
 void ARPGCharacterBase::OnHealthChanged()
 {
