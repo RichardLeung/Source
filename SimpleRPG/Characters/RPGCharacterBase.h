@@ -188,6 +188,9 @@ private:
 public:
 
 	UFUNCTION(BlueprintImplementableEvent)
+	void Menu();
+
+	UFUNCTION(BlueprintImplementableEvent)
 	void k2_Arm();
 	
 	UFUNCTION(BlueprintImplementableEvent)

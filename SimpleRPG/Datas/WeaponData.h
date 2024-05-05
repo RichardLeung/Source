@@ -14,7 +14,6 @@ enum class EWeaponType : uint8
 	Axe UMETA(DisplayName = "Axe"),
 };
 
-
 /**
  * 
  */

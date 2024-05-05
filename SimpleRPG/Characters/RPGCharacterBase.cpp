@@ -157,9 +157,7 @@ void ARPGCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	if (UEnhancedInputComponent* PEI = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		PEI->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Move);
-		// PEI->BindAction(LookUpAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::LookUp);
-		// PEI->BindAction(TurnAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Turn);
-		// PEI->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Jump);
+		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Menu);
 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Attack);
 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Interact);
 	}
