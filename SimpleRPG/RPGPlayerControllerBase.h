@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "RPGInventoryInterface.h"
 #include "RPGTypes.h"
+#include "Datas/WeaponModel.h"
 #include "GameFramework/PlayerController.h"
 #include "RPGPlayerControllerBase.generated.h"
 
@@ -28,6 +29,15 @@ public:
 	// 由此玩家拥有的所有道具的映射，从定义到数据
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	TMap<UItemData*, FRPGItemData> InventoryData;
+
+	// 声明静态成员函数来获取和自增WeaponNextId
+	static int32 GetAndIncrementWeaponNextId()
+	{
+		return WeaponNextId++;
+	}
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
+	TMap<int32, UWeaponModel*> Weapons;
 
 	/** Delegate called when an inventory item has been added or removed */
 	// 当一个道具被添加或移除时调用的委托
@@ -113,4 +123,8 @@ protected:
 	/** Called when a global save game as been loaded */
 	// 当全局保存游戏已加载时调用
 	void HandleSaveGameLoaded(URPGSaveGame* NewSaveGame);
+
+private:
+	// 静态成员变量用于保存武器ID
+	static int32 WeaponNextId;
 };

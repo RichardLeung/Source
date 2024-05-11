@@ -43,9 +43,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	FSlateBrush ItemIcon;
 
-	// 价格
+	// 品质
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
-	int32 Price;
+	int32 Quality;
 
 	// 最大堆叠数量
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")

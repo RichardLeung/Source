@@ -40,6 +40,7 @@ void AItem::OnInteract()
 		{
 			PlayerController->AddInventoryItem(ItemData);
 			UE_LOG(LogTemp, Warning, TEXT("拾取物品"));
+			UE_LOG(LogTemp, Warning, TEXT("物品名称：%s"), *ItemData->ItemName.ToString());
 			Destroy();
 		}
 	}

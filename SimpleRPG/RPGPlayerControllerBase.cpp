@@ -2,17 +2,24 @@
 
 
 #include "RPGPlayerControllerBase.h"
+
+#include <functional>
+
 #include "RPGGameInstanceBase.h"
 #include "RPGSaveGame.h"
 #include "RPGTypes.h"
 #include "Datas/ItemData.h"
+#include "Datas/WeaponBaseModel.h"
 #include "Blueprint/UserWidget.h"
 #include "Characters/RPGCharacterBase.h"
 #include "Widgets/GameHUD.h"
 
+// 初始化静态成员变量
+int32 ARPGPlayerControllerBase::WeaponNextId = 0;
+
 ARPGPlayerControllerBase::ARPGPlayerControllerBase()
 {
-	
+	WeaponNextId = 0;
 }
 
 void ARPGPlayerControllerBase::BeginPlay()
@@ -36,45 +43,67 @@ bool ARPGPlayerControllerBase::GetInventoryItemData(UItemData* Item, FRPGItemDat
 bool ARPGPlayerControllerBase::AddInventoryItem(UItemData* NewItem, int32 ItemCount, int32 ItemLevel)
 {
 	UE_LOG(LogTemp, Warning, TEXT("添加道具开始"));
-	bool bChanged = false;
-	if (!NewItem)
+	if(NewItem->ItemType == EItemType::Weapon)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AddInventoryItem: Failed trying to add null item!"));
-		return false;
-	}
-
-	if (ItemCount <= 0)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AddInventoryItem: Failed trying to add item %s with negative count or level!"), *NewItem->GetName());
-		return false;
-	}
-
-	// Find current item data, which may be empty
-	FRPGItemData OldData;
-	GetInventoryItemData(NewItem, OldData);
-
-	// Find modified data
-	FRPGItemData NewData = OldData;
-	NewData.UpdateItemData(FRPGItemData(ItemCount, ItemLevel), NewItem->MaxStackSize, 1);
-
-	if (OldData != NewData)
-	{
-		// If data changed, need to update storage and call callback
-		InventoryData.Add(NewItem, NewData);
-		NotifyInventoryItemChanged(true, NewItem);
-		bChanged = true;
-	}
-	UE_LOG(LogTemp, Warning, TEXT("所有道具种类数：%d"),InventoryData.Num());
-	UE_LOG(LogTemp, Warning, TEXT("这个道具的个数：%d"), NewData.ItemCount);
-	UE_LOG(LogTemp, Warning, TEXT("添加道具完成"));
-	if (bChanged)
-	{
-		// If anything changed, write to save game
-		SaveInventory();
-		ARPGCharacterBase* PlayerCharacter = Cast<ARPGCharacterBase>(GetCharacter());
-		PlayerCharacter->OnInventoryItemsChanged();
+		UE_LOG(LogTemp, Warning, TEXT("添加武器"));
+		// 从GameInstance中获取武器数据
+		URPGGameInstanceBase* GameInstance = Cast<URPGGameInstanceBase>(GetGameInstance());
+		FWeaponBaseModel* WeaponBaseModel = GameInstance->WeaponData.Find(FName(*NewItem->ItemName.ToString()));
+		// 生成武器模型
+		UWeaponModel* WeaponModel = NewObject<UWeaponModel>();
+		// 设置武器模型的属性
+		WeaponModel->Id = WeaponNextId;
+		WeaponModel->Level = 1;
+		WeaponModel->EquippedCharacter = FName("None");
+		WeaponModel->BaseInfo = *WeaponBaseModel;
+		// 添加到武器列表
+		Weapons.Add(WeaponNextId, WeaponModel);
+		WeaponNextId++;
+		UE_LOG(LogTemp, Warning, TEXT("添加武器完成"));
+		UE_LOG(LogTemp, Warning, TEXT("武器ID：%d"), WeaponModel->Id);
+		UE_LOG(LogTemp, Warning, TEXT("武器等级：%d"), WeaponModel->Level);
+		UE_LOG(LogTemp, Warning, TEXT("武器名称：%s"), *WeaponModel->BaseInfo.Name.ToString());
 		return true;
 	}
+	// bool bChanged = false;
+	// if (!NewItem)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("AddInventoryItem: Failed trying to add null item!"));
+	// 	return false;
+	// }
+	//
+	// if (ItemCount <= 0)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("AddInventoryItem: Failed trying to add item %s with negative count or level!"), *NewItem->GetName());
+	// 	return false;
+	// }
+	//
+	// // Find current item data, which may be empty
+	// FRPGItemData OldData;
+	// GetInventoryItemData(NewItem, OldData);
+	//
+	// // Find modified data
+	// FRPGItemData NewData = OldData;
+	// NewData.UpdateItemData(FRPGItemData(ItemCount, ItemLevel), NewItem->MaxStackSize, 1);
+	//
+	// if (OldData != NewData)
+	// {
+	// 	// If data changed, need to update storage and call callback
+	// 	InventoryData.Add(NewItem, NewData);
+	// 	NotifyInventoryItemChanged(true, NewItem);
+	// 	bChanged = true;
+	// }
+	// UE_LOG(LogTemp, Warning, TEXT("所有道具种类数：%d"),InventoryData.Num());
+	// UE_LOG(LogTemp, Warning, TEXT("这个道具的个数：%d"), NewData.ItemCount);
+	// UE_LOG(LogTemp, Warning, TEXT("添加道具完成"));
+	// if (bChanged)
+	// {
+	// 	// If anything changed, write to save game
+	// 	SaveInventory();
+	// 	ARPGCharacterBase* PlayerCharacter = Cast<ARPGCharacterBase>(GetCharacter());
+	// 	PlayerCharacter->OnInventoryItemsChanged();
+	// 	return true;
+	// }
 	return false;
 }
 

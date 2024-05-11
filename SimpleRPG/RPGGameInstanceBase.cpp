@@ -4,6 +4,7 @@
 #include "RPGGameInstanceBase.h"
 #include "RPGAssetManager.h"
 #include "RPGSaveGame.h"
+#include "Datas/WeaponBaseModel.h"
 
 #include "Engine/DataTable.h"
 #include "Kismet/GameplayStatics.h"
@@ -28,14 +29,14 @@ void URPGGameInstanceBase::LoadDataTables()
 	WeaponDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Weapon.DT_Weapon"));
 	TArray<FName> AllKeys = WeaponDataTable->GetRowNames();
 	UE_LOG(LogTemp, Warning, TEXT("加载WeaponDataTable,包含武器：%d"), AllKeys.Num());
-	TMap<FName, FBaseItemData> WeaponDataNew;
+	TMap<FName, FWeaponBaseModel> WeaponDataNew;
 	// 获取UDataTable的RowMap，这是一个包含所有行的TMap，其中键为RowName，值为void指针
 	const TMap<FName, uint8*>& DataTableRowMap = WeaponDataTable->GetRowMap();
 	// 遍历RowMap并将每个行名和数据添加到我们的MyDataMap中
 	for (const auto& RowPair : DataTableRowMap)
 	{
 		const FName& RowName = RowPair.Key;
-		const FBaseItemData* RowData = reinterpret_cast<const FBaseItemData*>(RowPair.Value);
+		const FWeaponBaseModel* RowData = reinterpret_cast<const FWeaponBaseModel*>(RowPair.Value);
 		UE_LOG(LogTemp, Warning, TEXT("%s"), *RowData->Name.ToString());
 		WeaponDataNew.Add(RowName, *RowData);
 	}

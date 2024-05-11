@@ -160,6 +160,7 @@ void ARPGCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Menu);
 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Attack);
 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Interact);
+		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Inventory);
 	}
 }
 
@@ -279,6 +280,11 @@ void ARPGCharacterBase::Test()
 		bArmWeapon = !bArmWeapon;
 		ActionState = EActionState::EAS_Equipping;
 	}
+}
+
+void ARPGCharacterBase::Inventory()
+{
+	k2_Inventory();
 }
 
 void ARPGCharacterBase::Interact()

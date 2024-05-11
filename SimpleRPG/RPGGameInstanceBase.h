@@ -7,6 +7,7 @@
 #include "Engine/GameInstance.h"
 #include "Datas/BaseItemData.h"
 #include "Datas/CharacterData.h"
+#include "Datas/WeaponBaseModel.h"
 #include "RPGGameInstanceBase.generated.h"
 
 class URPGItem;
@@ -28,13 +29,14 @@ public:
 
 	virtual void Init() override;
 
+	
 	void LoadDataTables();
 
 	UPROPERTY()
 	UDataTable* WeaponDataTable;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TMap<FName, FBaseItemData> WeaponData;
+	TMap<FName, FWeaponBaseModel> WeaponData;
 
 	UPROPERTY()
 	UDataTable* CharacterDataTable;

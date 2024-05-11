@@ -96,7 +96,7 @@ protected:
 	UInputAction* MapAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* TestAction;
+	UInputAction* InventoryAction;
 
 
 public:
@@ -152,6 +152,8 @@ private:
 	void Interact();
 
 	void Test();
+
+	void Inventory();
 	
 	ARPGPlayerControllerBase* GetPlayerController() const;
 	
@@ -186,6 +188,9 @@ private:
 	// void OnInventoryItemClick(UInventoryObject* InventoryObject);
 	
 public:
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void k2_Inventory();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void Menu();

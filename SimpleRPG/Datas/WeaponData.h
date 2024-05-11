@@ -73,4 +73,10 @@ public:
 	// 武器盒子终点
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Item)
 	FVector WeaponBoxEnd;
+
+	// 重写GetPrimaryAssetId
+	virtual FPrimaryAssetId GetPrimaryAssetId() const override
+	{
+		return FPrimaryAssetId(FPrimaryAssetType("Weapon"), ItemId);
+	}
 };
