@@ -98,7 +98,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
 	UInputAction* InventoryAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* SkillAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* UltimateAction;
+	
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -154,6 +159,10 @@ private:
 	void Test();
 
 	void Inventory();
+
+	void Skill();
+
+	void Ultimate();
 	
 	ARPGPlayerControllerBase* GetPlayerController() const;
 	
@@ -188,6 +197,12 @@ private:
 	// void OnInventoryItemClick(UInventoryObject* InventoryObject);
 	
 public:
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void k2_Skill();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void k2_Ultimate();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void k2_Inventory();

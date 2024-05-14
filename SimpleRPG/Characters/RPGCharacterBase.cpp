@@ -161,6 +161,8 @@ void ARPGCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Attack);
 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Interact);
 		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Inventory);
+		PEI->BindAction(SkillAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Skill);
+		PEI->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &ARPGCharacterBase::Ultimate);
 	}
 }
 
@@ -285,6 +287,16 @@ void ARPGCharacterBase::Test()
 void ARPGCharacterBase::Inventory()
 {
 	k2_Inventory();
+}
+
+void ARPGCharacterBase::Skill()
+{
+	k2_Skill();
+}
+
+void ARPGCharacterBase::Ultimate()
+{
+	k2_Ultimate();
 }
 
 void ARPGCharacterBase::Interact()
