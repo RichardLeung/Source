@@ -20,6 +20,9 @@ ARPGEnemyCharacter::ARPGEnemyCharacter()
 	GetMesh()->SetGenerateOverlapEvents(true);
 
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera,ECollisionResponse::ECR_Ignore);
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	
 }
 
 void ARPGEnemyCharacter::BeginPlay()

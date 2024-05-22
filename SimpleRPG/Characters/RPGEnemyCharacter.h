@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemComponent.h"
 #include "GameFramework/Character.h"
 #include "SimpleRPG/Interfaces/HitInterface.h"
 #include "RPGEnemyCharacter.generated.h"
@@ -23,6 +24,12 @@ public:
 	void DirectionalHit(const FVector& ImpactPoint);
 
 	virtual void GetHit(const FVector& ImpactPoint) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
+	UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
+	TArray<TSubclassOf<UGameplayAbility>> MyAbilities;
 
 
 protected:
