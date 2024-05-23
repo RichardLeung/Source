@@ -29,6 +29,24 @@ void ARPGEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	PlayerCharacter = Cast<ARPGCharacterBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+	if(AbilitySystemComponent)
+	{
+		// 修改：给ASC赋予技能
+		if (MyAbilities.Num() > 0)
+		{
+			for (auto i = 0; i < MyAbilities.Num(); i++)
+			{
+				if(MyAbilities[i])
+				{
+					AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(MyAbilities[i].GetDefaultObject(),1,0));
+				}
+			}
+		}
+
+		// 修改：初始化ASC
+		AbilitySystemComponent->InitAbilityActorInfo(this,this);
+	}
 }
 
 void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)

@@ -87,10 +87,7 @@ void AWeapon::OnBoxOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		ActorsToIgnore,
 		EDrawDebugTrace::ForDuration,
 		HitResult,
-		true,
-		FLinearColor::Red,
-		FLinearColor::Green,
-		5.f);
+		true);
 	if(HitResult.GetActor())
 	{
 		IHitInterface* HitInterface = Cast<IHitInterface>(HitResult.GetActor());
