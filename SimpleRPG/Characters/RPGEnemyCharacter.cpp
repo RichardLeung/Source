@@ -6,6 +6,7 @@
 #include "RPGCharacterBase.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -22,7 +23,9 @@ ARPGEnemyCharacter::ARPGEnemyCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera,ECollisionResponse::ECR_Ignore);
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
-	
+
+	StatusBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("StatusBar"));
+	StatusBar->SetupAttachment(GetRootComponent());
 }
 
 void ARPGEnemyCharacter::BeginPlay()

@@ -9,6 +9,7 @@
 #include "RPGEnemyCharacter.generated.h"
 
 class UAnimMontage;
+class UWidgetComponent;
 
 UCLASS()
 class SIMPLERPG_API ARPGEnemyCharacter : public ACharacter, public IHitInterface
@@ -27,6 +28,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
 	UAbilitySystemComponent* AbilitySystemComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
+	TObjectPtr<UWidgetComponent> StatusBar;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	TArray<TSubclassOf<UGameplayAbility>> MyAbilities;
