@@ -9,6 +9,7 @@
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "SimpleRPG/Abilities/RPGAttributeSet.h"
 
 ARPGEnemyCharacter::ARPGEnemyCharacter()
 {
@@ -23,6 +24,8 @@ ARPGEnemyCharacter::ARPGEnemyCharacter()
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera,ECollisionResponse::ECR_Ignore);
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	
+	AttributeSet = CreateDefaultSubobject<URPGAttributeSet>(TEXT("AttributeSet"));
 
 	StatusBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("StatusBar"));
 	StatusBar->SetupAttachment(GetRootComponent());

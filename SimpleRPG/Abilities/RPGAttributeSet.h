@@ -56,13 +56,6 @@ public:
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldValue) const;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character")
-	FGameplayAttributeData Strength;
-	ATTRIBUTE_ACCESSORS(URPGAttributeSet, Strength);
-	
-	UFUNCTION()
-	void OnRep_Strength(const FGameplayAttributeData& OldValue) const;
-
 public:
 	// 属性修改前回调
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
