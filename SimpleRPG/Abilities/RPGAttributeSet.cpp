@@ -51,6 +51,7 @@ void URPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
 	Super::PostGameplayEffectExecute(Data);
 	UE_LOG(LogTemp, Warning, TEXT("PostGameplayEffectExecute GE生效： %s"), *Data.EvaluatedData.Attribute.GetName());
+	
 	// ARPGCharacterBase* TargetCharater = nullptr;
 	// if(Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 	// {

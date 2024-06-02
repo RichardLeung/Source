@@ -4,6 +4,7 @@
 #include "RPGEnemyCharacter.h"
 
 #include "RPGCharacterBase.h"
+#include "RPGPlayerCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
@@ -34,7 +35,7 @@ ARPGEnemyCharacter::ARPGEnemyCharacter()
 void ARPGEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerCharacter = Cast<ARPGCharacterBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	PlayerCharacter = Cast<ARPGPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	if(AbilitySystemComponent)
 	{
@@ -68,12 +69,6 @@ void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 void ARPGEnemyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-}
-
-void ARPGEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
 
@@ -139,6 +134,11 @@ void ARPGEnemyCharacter::DirectionalHit(const FVector& ImpactPoint)
 void ARPGEnemyCharacter::GetHit(const FVector& ImpactPoint)
 {
 	DirectionalHit(ImpactPoint);
+}
+
+UAbilitySystemComponent* ARPGEnemyCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
 
 

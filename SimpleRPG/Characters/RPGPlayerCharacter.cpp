@@ -1,9 +1,7 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "RPGPlayerCharacter.h"
-
-#include "RPGNPCCharacter.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "EnhancedInput/Public/EnhancedInputSubsystems.h"
@@ -11,14 +9,14 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "HairStrandsCore/Public/GroomComponent.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "SimpleRPG/RPGPlayerControllerBase.h"
-#include "SimpleRPG/Abilities/RPGAttributeSet.h"
 #include "SimpleRPG/Items/Weapon.h"
-#include "Components/BoxComponent.h"
 #include "SimpleRPG/Components/RPGShopComponent.h"
 #include "SimpleRPG/Datas/WeaponData.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Components/BoxComponent.h"
 #include "SimpleRPG/Widgets/GameHUD.h"
+
 
 // Sets default values
 ARPGPlayerCharacter::ARPGPlayerCharacter()
@@ -89,59 +87,15 @@ void ARPGPlayerCharacter::BeginPlay()
 	ARPGPlayerControllerBase* PlayerController = GetPlayerController();
 	if(PlayerController)
 	{
-		// PlayerController->GameHUD->OnInventoryItemClick.AddDynamic(this,&ARPGPlayerCharacter::OnInventoryItemClick);
+		// PlayerController->GameHUD->OnInventoryItemClick.AddDynamic(this,&ARPGCharacterBase::OnInventoryItemClick);
 	}
 	OnHealthChanged();
+	
 }
-
-
 
 UAbilitySystemComponent* ARPGPlayerCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
-}
-
-// void ARPGPlayerCharacter::StoreInitialCameraTransform()
-// {
-// 	InitialCameraLocation = Camera->GetComponentLocation();
-// 	InitialCameraRotation = Camera->GetComponentRotation();
-// }
-//
-// void ARPGPlayerCharacter::RestoreCameraTransform()
-// {
-// 	TargetCameraLocation = InitialCameraLocation;
-// 	TargetCameraRotation = InitialCameraRotation;
-// }
-
-// bool ARPGPlayerCharacter::IsCameraRestored() const
-// {
-// 	FVector CurrentCameraLocation = Camera->GetComponentLocation();
-// 	FRotator CurrentCameraRotation = Camera->GetComponentRotation();
-//
-// 	// 设置一个阈值，表示摄像头位置和旋转的最小差异
-// 	float LocationTolerance = 10.f; // 单位：厘米
-// 	float RotationTolerance = 1.f;  // 单位：度
-//
-// 	// 如果当前摄像头位置和旋转与目标位置和旋转之间的差异小于阈值，则认为摄像头已经还原
-// 	return FVector::Dist(CurrentCameraLocation, InitialCameraLocation) <= LocationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Yaw) <= RotationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Pitch) <= RotationTolerance &&
-// 		   FMath::Abs((CurrentCameraRotation - InitialCameraRotation).GetNormalized().Roll) <= RotationTolerance;
-// }
-
-bool ARPGPlayerCharacter::CanAttack()
-{
-	return ActionState == EActionState::EAS_Unoccupied && CharacterState != ECharacterState::ECS_Unequipped;
-}
-
-bool ARPGPlayerCharacter::CanDisArm()
-{
-	return bArmWeapon;
-}
-
-bool ARPGPlayerCharacter::CanArm()
-{
-	return !bArmWeapon;
 }
 
 // Called every frame
@@ -157,15 +111,28 @@ void ARPGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	if (UEnhancedInputComponent* PEI = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 	{
 		PEI->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Move);
-		PEI->BindAction(LookUpAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::LookUp);
-		PEI->BindAction(TurnAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Turn);
-		PEI->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Jump);
+		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Menu);
 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Attack);
 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Interact);
-		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Menu);
-		PEI->BindAction(MapAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Map);
-		PEI->BindAction(TestAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Test);
+		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Inventory);
+		PEI->BindAction(SkillAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Skill);
+		PEI->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Ultimate);
 	}
+}
+
+bool ARPGPlayerCharacter::CanAttack()
+{
+	return ActionState == EActionState::EAS_Unoccupied && CharacterState != ECharacterState::ECS_Unequipped;
+}
+
+bool ARPGPlayerCharacter::CanDisArm()
+{
+	return bArmWeapon;
+}
+
+bool ARPGPlayerCharacter::CanArm()
+{
+	return !bArmWeapon;
 }
 
 void ARPGPlayerCharacter::Move(const FInputActionValue& Value)
@@ -286,6 +253,21 @@ void ARPGPlayerCharacter::Test()
 	}
 }
 
+void ARPGPlayerCharacter::Inventory()
+{
+	k2_Inventory();
+}
+
+void ARPGPlayerCharacter::Skill()
+{
+	k2_Skill();
+}
+
+void ARPGPlayerCharacter::Ultimate()
+{
+	k2_Ultimate();
+}
+
 void ARPGPlayerCharacter::Interact()
 {
 	UE_LOG(LogTemp, Warning, TEXT("开始交互"));
@@ -304,43 +286,10 @@ void ARPGPlayerCharacter::Interact()
 	}
 }
 
-void ARPGPlayerCharacter::Menu()
-{
-	UE_LOG(LogTemp, Warning, TEXT("菜单"));
-	IsShowMenu = !IsShowMenu;
-	OnMenuChanged(IsShowMenu);
-}
-
-void ARPGPlayerCharacter::Map()
-{
-	UE_LOG(LogTemp, Warning, TEXT("地图"));
-	IsShowMap = !IsShowMap;
-	OnMapChanged(IsShowMap);
-}
-
 ARPGPlayerControllerBase* ARPGPlayerCharacter::GetPlayerController() const
 {
 	return Cast<ARPGPlayerControllerBase>(GetController());
 }
-
-// void ARPGPlayerCharacter::SetupDialogueCamera(ARPGNPCCharacter* NPC)
-// {
-// 	if (!NPC) return;
-// 	if (IsInteracting)
-// 	{
-// 		// 如果正在交互，那么恢复摄像头
-// 		RestoreCameraTransform();
-// 		return;
-// 	}
-// 	StoreInitialCameraTransform();
-// 	FVector PlayerLocation = GetActorLocation();
-// 	FVector NPCLocation = NPC->GetActorLocation();
-// 	FVector MidPoint = (PlayerLocation + NPCLocation) * 0.5f;
-// 	FVector CameraOffset = FVector(100.f, 100.f, 50.f); // 你可以根据需要调整这个值
-// 	TargetCameraLocation = MidPoint + CameraOffset;
-// 	TargetCameraRotation = UKismetMathLibrary::FindLookAtRotation(TargetCameraLocation, MidPoint);
-// 	IsInteracting = true;
-// }
 
 void ARPGPlayerCharacter::Arm()
 {
@@ -351,15 +300,6 @@ void ARPGPlayerCharacter::DisArm()
 {
 	k2_DisArm();
 }
-
-// void ARPGPlayerCharacter::OnInventoryItemClick(UInventoryObject* InventoryObject)
-// {
-// 	UE_LOG(LogTemp, Warning, TEXT("ARPGPlayerCharacter::OnInventoryItemClick"));
-// 	if (InventoryObject)
-// 	{
-// 		UE_LOG(LogTemp, Warning, TEXT("ARPGPlayerCharacter::OnInventoryItemClick %s"), *InventoryObject.);
-// 	}	
-// }
 
 void ARPGPlayerCharacter::OnHealthChanged()
 {
@@ -458,3 +398,4 @@ void ARPGPlayerCharacter::ResetAttackCounter()
 		bCanChainAttack = false;
 	}
 }
+

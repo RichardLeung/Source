@@ -1,16 +1,13 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AttributeSet.h"
+#include "RPGCharacterBase.h"
 #include "CharacterTypes.h"
-#include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
 #include "SimpleRPG/Items/Item.h"
-#include "AbilitySystemComponent.h"
-#include "AbilitySystemInterface.h"
 #include "RPGPlayerCharacter.generated.h"
 
 class UInputAction;
@@ -24,15 +21,12 @@ class AWeapon;
 class UItemData;
 class ARPGNPCCharacter;
 
-/**
- * 
- */
 UCLASS()
-class SIMPLERPG_API ARPGPlayerCharacter : public ACharacter, public IAbilitySystemInterface
+class SIMPLERPG_API ARPGPlayerCharacter : public ARPGCharacterBase, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
-	public:
+public:
 	// Sets default values for this character's properties
 	ARPGPlayerCharacter();
 
@@ -50,23 +44,7 @@ class SIMPLERPG_API ARPGPlayerCharacter : public ACharacter, public IAbilitySyst
 
 	UPROPERTY(BlueprintReadOnly, Category="Attributes")
 	class URPGAttributeSet* AttributeSet;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UCameraComponent* Camera;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Weapon)
-	AWeapon* CurrentWeapon;
-
-	// 当前与玩家交互的NPC
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Interact)
-	ARPGNPCCharacter* CurrentInteractingNPC;
-	
-	UPROPERTY(BlueprintReadOnly, Category = "Interactable")
-	TArray<TScriptInterface<IRPGInteractInterface>> InteractableItems;
-
-	bool IsInteracting = false;
-
-	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -99,15 +77,35 @@ protected:
 	UInputAction* MapAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* TestAction;
+	UInputAction* InventoryAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* SkillAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* UltimateAction;
 
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Weapon)
+	AWeapon* CurrentWeapon;
+
+	// 当前与玩家交互的NPC
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Interact)
+	ARPGNPCCharacter* CurrentInteractingNPC;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Interactable")
+	TArray<TScriptInterface<IRPGInteractInterface>> InteractableItems;
+
+	bool IsInteracting = false;
 
 private:
 
@@ -154,11 +152,13 @@ private:
 
 	void Interact();
 
-	void Menu();
-	
-	void Map();
-
 	void Test();
+
+	void Inventory();
+
+	void Skill();
+
+	void Ultimate();
 	
 	ARPGPlayerControllerBase* GetPlayerController() const;
 	
@@ -193,6 +193,18 @@ private:
 	// void OnInventoryItemClick(UInventoryObject* InventoryObject);
 	
 public:
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void k2_Skill();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void k2_Ultimate();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void k2_Inventory();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Menu();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void k2_Arm();
@@ -259,5 +271,4 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* EquipAnimMontage;
-	
 };

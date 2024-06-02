@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
-#include "GameFramework/Character.h"
+#include "RPGCharacterBase.h"
 #include "SimpleRPG/Interfaces/HitInterface.h"
 #include "RPGEnemyCharacter.generated.h"
 
@@ -12,7 +12,7 @@ class UAnimMontage;
 class UWidgetComponent;
 
 UCLASS()
-class SIMPLERPG_API ARPGEnemyCharacter : public ACharacter, public IHitInterface
+class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase, public IHitInterface, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -21,13 +21,15 @@ public:
 	
 	virtual void Tick(float DeltaTime) override;
 	
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	void DirectionalHit(const FVector& ImpactPoint);
 
 	virtual void GetHit(const FVector& ImpactPoint) override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
 	UAbilitySystemComponent* AbilitySystemComponent;
+
+	// 修改：实现接口方法
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
 	TObjectPtr<UWidgetComponent> StatusBar;
@@ -56,5 +58,5 @@ public:
 
 private:
 	UPROPERTY()
-	class ARPGCharacterBase* PlayerCharacter;
+	class ARPGPlayerCharacter* PlayerCharacter;
 };

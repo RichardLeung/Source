@@ -3,7 +3,7 @@
 
 #include "Item.h"
 #include "SimpleRPG/RPGPlayerControllerBase.h"
-#include "SimpleRPG/Characters/RPGCharacterBase.h"
+#include "SimpleRPG/Characters/RPGPlayerCharacter.h"
 #include "SimpleRPG/Datas/ItemData.h"
 
 AItem::AItem()
@@ -49,7 +49,7 @@ void AItem::OnInteract()
 void AItem::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                  UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (ARPGCharacterBase* PlayerCharacter = Cast<ARPGCharacterBase>(OtherActor))
+	if (ARPGPlayerCharacter* PlayerCharacter = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
 		AItem *Item = Cast<AItem>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
@@ -63,11 +63,12 @@ void AItem::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (ARPGCharacterBase* PlayerCharacter = Cast<ARPGCharacterBase>(OtherActor))
+	if (ARPGPlayerCharacter* PlayerCharacter = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
 		AItem *Item = Cast<AItem>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
 		InteractableInterface.SetInterface(Cast<IRPGInteractInterface>(Item));
+		InteractableInterface.SetObject(Item);
 		InteractableInterface.SetObject(Item);
 		InteractableInterface->Execute_SetInteractableType(InteractableInterface.GetObject(), EInteractableType::Item);
 		PlayerCharacter->RemoveInteractableItem(InteractableInterface);

@@ -2,14 +2,14 @@
 
 
 #include "RPGAnimInstance.h"
-#include "RPGCharacterBase.h"
+#include "RPGPlayerCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 
 void URPGAnimInstance::NativeInitializeAnimation()
 {
 	Super::NativeInitializeAnimation();
-	RPGCharacter = Cast<ARPGCharacterBase>(TryGetPawnOwner());
+	RPGCharacter = Cast<ARPGPlayerCharacter>(TryGetPawnOwner());
 	if (RPGCharacter)
 	{
 		RPGCharacterMovement = RPGCharacter->GetCharacterMovement();
