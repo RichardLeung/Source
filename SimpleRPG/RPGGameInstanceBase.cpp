@@ -26,7 +26,7 @@ void URPGGameInstanceBase::Init()
 void URPGGameInstanceBase::LoadDataTables()
 {
 	//加载武器数据表
-	WeaponDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Weapon.DT_Weapon"));
+	WeaponDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Weapon_All.DT_Weapon_All"));
 	TArray<FName> AllKeys = WeaponDataTable->GetRowNames();
 	UE_LOG(LogTemp, Warning, TEXT("加载WeaponDataTable,包含武器：%d"), AllKeys.Num());
 	TMap<FName, FWeaponBaseModel> WeaponDataNew;
