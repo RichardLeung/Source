@@ -37,8 +37,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Abilities)
 	TArray<TSubclassOf<UGameplayAbility>> MyAbilities;
 
-	UPROPERTY(BlueprintReadOnly, Category="Attributes")
-	class URPGAttributeSet* AttributeSet;
 
 protected:
 	virtual void BeginPlay() override;
