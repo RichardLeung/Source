@@ -21,5 +21,10 @@ void ARPGCharacterBase::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+FVector ARPGCharacterBase::GetCombatProjectileLocation()
+{
+	return ICombatInterface::GetCombatProjectileLocation();
+}
+
 
 

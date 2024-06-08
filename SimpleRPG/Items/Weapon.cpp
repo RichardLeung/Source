@@ -3,7 +3,7 @@
 
 #include "Weapon.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "SimpleRPG/Interfaces/HitInterface.h"
+#include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "SimpleRPG/Datas/WeaponData.h"
 
 AWeapon::AWeapon()
@@ -90,7 +90,7 @@ void AWeapon::OnBoxOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		true);
 	if(HitResult.GetActor())
 	{
-		IHitInterface* HitInterface = Cast<IHitInterface>(HitResult.GetActor());
+		ICombatInterface* HitInterface = Cast<ICombatInterface>(HitResult.GetActor());
 		if(HitInterface)
 		{
 			HitInterface->GetHit(HitResult.ImpactPoint);

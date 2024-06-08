@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "RPGCharacterBase.generated.h"
 
 UCLASS()
-class SIMPLERPG_API ARPGCharacterBase : public ACharacter
+class SIMPLERPG_API ARPGCharacterBase : public ACharacter, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -22,4 +23,6 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	virtual FVector GetCombatProjectileLocation() override;
 };

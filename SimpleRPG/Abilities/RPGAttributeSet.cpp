@@ -51,31 +51,31 @@ void URPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
 	Super::PostGameplayEffectExecute(Data);
 	UE_LOG(LogTemp, Warning, TEXT("PostGameplayEffectExecute GE生效： %s"), *Data.EvaluatedData.Attribute.GetName());
-	// ARPGCharacterBase* TargetCharater = nullptr;
-	// if(Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
-	// {
-	// 	AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
-	// 	TargetCharater = Cast<ARPGCharacterBase>(TargetActor);
-	// }
-	// if(TargetCharater != nullptr)
-	// {
-	// 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
-	// 	{
-	// 		TargetCharater->OnHealthChanged();
-	// 	}
-	// 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
-	// 	{
-	// 		TargetCharater->OnManaChanged();
-	// 	}
-	// }
+	ARPGCharacterBase* TargetCharater = nullptr;
+	if(Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	{
+		AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
+		TargetCharater = Cast<ARPGCharacterBase>(TargetActor);
+	}
+	if(TargetCharater != nullptr)
+	{
+		if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+		{
+			TargetCharater->OnHealthChanged();
+		}
+		if (Data.EvaluatedData.Attribute == GetManaAttribute())
+		{
+			TargetCharater->OnManaChanged();
+		}
+	}
 }
 
 void URPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
-	Super::PreAttributeChange(Attribute, NewValue);
 	UE_LOG(LogTemp, Warning, TEXT("PreAttributeChange GE生效： %f"), NewValue);
-	// if (Attribute == GetHealthAttribute())
-	// {
-	// 	NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
-	// }
+	if (Attribute == GetHealthAttribute())
+	{
+		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
+	}
+	Super::PreAttributeChange(Attribute, NewValue);
 }

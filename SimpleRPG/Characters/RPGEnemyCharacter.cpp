@@ -7,7 +7,6 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
 
 ARPGEnemyCharacter::ARPGEnemyCharacter()
@@ -138,6 +137,16 @@ void ARPGEnemyCharacter::DirectionalHit(const FVector& ImpactPoint)
 void ARPGEnemyCharacter::GetHit(const FVector& ImpactPoint)
 {
 	DirectionalHit(ImpactPoint);
+}
+
+void ARPGEnemyCharacter::OnHealthChanged()
+{	
+	K2_OnHealthChanged();
+}
+
+void ARPGEnemyCharacter::OnDie()
+{
+	K2_OnDie();	
 }
 
 

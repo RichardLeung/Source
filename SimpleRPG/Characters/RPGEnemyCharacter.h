@@ -5,15 +5,13 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "RPGCharacterBase.h"
-#include "GameFramework/Character.h"
-#include "SimpleRPG/Interfaces/HitInterface.h"
 #include "RPGEnemyCharacter.generated.h"
 
 class UAnimMontage;
 class UWidgetComponent;
 
 UCLASS()
-class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase, public IHitInterface
+class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase
 {
 	GENERATED_BODY()
 
@@ -23,9 +21,20 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
 	void DirectionalHit(const FVector& ImpactPoint);
 
 	virtual void GetHit(const FVector& ImpactPoint) override;
+
+	virtual void OnHealthChanged() override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void K2_OnHealthChanged();
+
+	virtual void OnDie() override;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void K2_OnDie();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
 	UAbilitySystemComponent* AbilitySystemComponent;

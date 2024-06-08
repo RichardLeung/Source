@@ -3,6 +3,8 @@
 
 #include "RPGProjectile.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
+#include "AbilitySystemComponent.h"
 #include "NiagaraFunctionLibrary.h"
 #include "Components/AudioComponent.h"
 #include "Components/SphereComponent.h"
@@ -25,7 +27,7 @@ ARPGProjectile::ARPGProjectile()
 	Sphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
-	Sphere->SetCollisionResponseToChannel(ECC_Pawn, ECR_Overlap);
+	Sphere->SetCollisionResponseToChannel(ECC_Enemy, ECR_Overlap);
 	Sphere->SetupAttachment(RootComponent);
 	
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
@@ -84,6 +86,10 @@ void ARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor
 	}
 	if(HasAuthority())
 	{
+		if(UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		{
+			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
+		}
 		Destroy();
 	}else
 	{

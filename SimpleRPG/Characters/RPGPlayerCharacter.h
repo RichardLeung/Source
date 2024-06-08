@@ -10,7 +10,9 @@
 #include "InputMappingContext.h"
 #include "SimpleRPG/Items/Item.h"
 #include "AbilitySystemComponent.h"
+#include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "AbilitySystemInterface.h"
+#include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "RPGPlayerCharacter.generated.h"
 
 class UInputAction;
@@ -273,4 +275,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* EquipAnimMontage;
+
+
+public:
+	virtual FVector GetCombatProjectileLocation() override;
 };

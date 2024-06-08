@@ -402,3 +402,11 @@ void ARPGPlayerCharacter::ResetAttackCounter()
 	}
 }
 
+FVector ARPGPlayerCharacter::GetCombatProjectileLocation()
+{
+	FVector CombatSocketLocation = GetActorLocation();
+	CombatSocketLocation.Z -= 70.f;
+	CombatSocketLocation.X += 50.f;
+	return CombatSocketLocation;
+}
+
