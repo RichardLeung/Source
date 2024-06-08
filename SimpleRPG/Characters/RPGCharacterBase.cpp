@@ -16,6 +16,8 @@
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
 #include "SimpleRPG/Items/Weapon.h"
 #include "Components/BoxComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "SimpleRPG/SimpleRPG.h"
 #include "SimpleRPG/Components/RPGShopComponent.h"
 #include "SimpleRPG/Datas/WeaponData.h"
 #include "SimpleRPG/Widgets/GameHUD.h"
@@ -28,7 +30,7 @@ ARPGCharacterBase::ARPGCharacterBase()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-
+	
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 360.f, 0.f);
 
@@ -38,6 +40,11 @@ ARPGCharacterBase::ARPGCharacterBase()
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
+
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera, ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	GetMesh()->SetGenerateOverlapEvents(true);
 
 	Hair = CreateDefaultSubobject<UGroomComponent>(TEXT("Hair"));
 	Hair->SetupAttachment(GetMesh());
