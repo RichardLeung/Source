@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "RPGCharacterBase.h"
 #include "GameFramework/Character.h"
 #include "SimpleRPG/Interfaces/HitInterface.h"
 #include "RPGEnemyCharacter.generated.h"
@@ -12,7 +13,7 @@ class UAnimMontage;
 class UWidgetComponent;
 
 UCLASS()
-class SIMPLERPG_API ARPGEnemyCharacter : public ACharacter, public IHitInterface
+class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase, public IHitInterface
 {
 	GENERATED_BODY()
 
@@ -56,5 +57,5 @@ public:
 
 private:
 	UPROPERTY()
-	class ARPGCharacterBase* PlayerCharacter;
+	class ARPGPlayerCharacter* PlayerCharacter;
 };

@@ -2,8 +2,7 @@
 
 
 #include "RPGEnemyCharacter.h"
-
-#include "RPGCharacterBase.h"
+#include "RPGPlayerCharacter.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
@@ -34,7 +33,7 @@ ARPGEnemyCharacter::ARPGEnemyCharacter()
 void ARPGEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerCharacter = Cast<ARPGCharacterBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	PlayerCharacter = Cast<ARPGPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 
 	if(AbilitySystemComponent)
 	{

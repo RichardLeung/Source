@@ -21,7 +21,7 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 	UPROPERTY(BlueprintReadOnly, Category = Movement)
-	class ARPGCharacterBase* RPGCharacter;
+	class ARPGPlayerCharacter* RPGCharacter;
 
 	UPROPERTY(BlueprintReadOnly, Category = Movement)
 	class UCharacterMovementComponent* RPGCharacterMovement;

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RPGCharacterBase.h"
 #include "Components/WidgetComponent.h"
 #include "Engine/DataTable.h"
 #include "GameFramework/Character.h"
@@ -13,7 +14,7 @@
 class UItemData;
 
 UCLASS()
-class SIMPLERPG_API ARPGNPCCharacter : public ACharacter, public IRPGInteractInterface
+class SIMPLERPG_API ARPGNPCCharacter : public ARPGCharacterBase, public IRPGInteractInterface
 {
 	GENERATED_BODY()
 
@@ -59,7 +60,7 @@ public:
 
 private:
 	UPROPERTY()
-	class ARPGCharacterBase* PlayerCharacter;
+	class ARPGPlayerCharacter* PlayerCharacter;
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere;

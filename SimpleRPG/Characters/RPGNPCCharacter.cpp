@@ -3,11 +3,10 @@
 
 #include "RPGNPCCharacter.h"
 #include "RPGCharacterBase.h"
+#include "RPGPlayerCharacter.h"
 #include "Camera/CameraComponent.h"
-#include "GameFramework/SpringArmComponent.h"
+#include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "SimpleRPG/RPGGameInstanceBase.h"
-#include "SimpleRPG/RPGPlayerControllerBase.h"
 
 // Sets default values
 ARPGNPCCharacter::ARPGNPCCharacter()
@@ -27,7 +26,7 @@ ARPGNPCCharacter::ARPGNPCCharacter()
 void ARPGNPCCharacter::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
                                             UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bBFromSweep, const FHitResult& SweepResult)
 {
-	if (ARPGCharacterBase* Interactable = Cast<ARPGCharacterBase>(OtherActor))
+	if (ARPGPlayerCharacter* Interactable = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
 		ARPGNPCCharacter *Item = Cast<ARPGNPCCharacter>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
@@ -41,7 +40,7 @@ void ARPGNPCCharacter::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedCompo
 void ARPGNPCCharacter::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (ARPGCharacterBase* Interactable = Cast<ARPGCharacterBase>(OtherActor))
+	if (ARPGPlayerCharacter* Interactable = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
 		ARPGNPCCharacter *Item = Cast<ARPGNPCCharacter>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
@@ -56,7 +55,7 @@ void ARPGNPCCharacter::OnSphereEndOverlap(UPrimitiveComponent* OverlappedCompone
 void ARPGNPCCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerCharacter = Cast<ARPGCharacterBase>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	PlayerCharacter = Cast<ARPGPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ARPGNPCCharacter::OnSphereBeginOverlap);
 	Sphere->OnComponentEndOverlap.AddDynamic(this, &ARPGNPCCharacter::OnSphereEndOverlap);
 }
