@@ -17,10 +17,6 @@ class SIMPLERPG_API URPGAssetManager : public UAssetManager
 	GENERATED_BODY()
 
 public:
-	// Constructor and overrides
-	URPGAssetManager()
-	{
-	}
 
 	virtual void StartInitialLoading() override;
 

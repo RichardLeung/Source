@@ -3,13 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
 
 /**
- * 
+ *  RPGGameplayTags
+ *  Singleton class for native gameplay tags
  */
-class SIMPLERPG_API RPGGameplayTags
+
+struct FRPGGameplayTags
 {
 public:
-	RPGGameplayTags();
-	~RPGGameplayTags();
+	static const FRPGGameplayTags& Get() { return GameplayTagsInstance; }
+	static void InitializeNativeGameplayTags();
+protected:
+	
+private:
+	static FRPGGameplayTags GameplayTagsInstance;
 };

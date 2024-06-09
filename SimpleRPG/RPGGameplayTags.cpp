@@ -2,11 +2,11 @@
 
 
 #include "RPGGameplayTags.h"
+#include "GameplayTagsManager.h"
 
-RPGGameplayTags::RPGGameplayTags()
-{
-}
+FRPGGameplayTags FRPGGameplayTags::GameplayTagsInstance;
 
-RPGGameplayTags::~RPGGameplayTags()
+void FRPGGameplayTags::InitializeNativeGameplayTags()
 {
+	UGameplayTagsManager::Get().AddNativeGameplayTag(FName("Attribute.Health"), FString("Attribute.Health"));
 }

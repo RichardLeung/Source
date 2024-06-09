@@ -2,15 +2,15 @@
 
 
 #include "RPGAssetManager.h"
+#include "RPGGameplayTags.h"
 #include "Datas/ItemData.h"
 
 URPGAssetManager& URPGAssetManager::Get()
 {
-	URPGAssetManager* This = Cast<URPGAssetManager>(GEngine->AssetManager);
-
-	if (This)
+	URPGAssetManager* RPGAssetManager = Cast<URPGAssetManager>(GEngine->AssetManager);
+	if (RPGAssetManager)
 	{
-		return *This;
+		return *RPGAssetManager;
 	}
 	UE_LOG(LogTemp, Fatal, TEXT("Invalid AssetManager in DefaultEngine.ini, must be RPGAssetManager!"));
 	return *NewObject<URPGAssetManager>(); // never calls this
@@ -19,8 +19,7 @@ URPGAssetManager& URPGAssetManager::Get()
 void URPGAssetManager::StartInitialLoading()
 {
 	Super::StartInitialLoading();
-
-	// UAbilitySystemGlobals::Get().InitGlobalData();
+	FRPGGameplayTags::InitializeNativeGameplayTags();
 }
 
 UItemData* URPGAssetManager::ForceLoadItem(const FPrimaryAssetId& PrimaryAssetId, bool bLogWarning)
