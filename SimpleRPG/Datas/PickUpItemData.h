@@ -13,5 +13,4 @@ UCLASS()
 class SIMPLERPG_API UPickUpItemData : public UItemData
 {
 	GENERATED_BODY()
-	
 };

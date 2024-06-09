@@ -22,16 +22,19 @@ class SIMPLERPG_API ICombatInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual void GetHit(const FVector& ImpactPoint) {
+	virtual void GetHit(const FVector& ImpactPoint)
+	{
 		// 默认实现可以为空
 	};
 
-	virtual FVector GetCombatProjectileLocation() {
+	virtual FVector GetCombatProjectileLocation()
+	{
 		// 默认实现可以为空
 		return FVector::ZeroVector;
 	};
 
-	virtual void OnHealthChanged() {
+	virtual void OnHealthChanged()
+	{
 		// 默认实现可以为空
 	};
 

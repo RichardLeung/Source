@@ -15,13 +15,13 @@ UCLASS()
 class SIMPLERPG_API AItem : public AActor, public IRPGInteractInterface
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	AItem();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	UItemData* ItemData;
-	
+
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
@@ -29,18 +29,21 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
 	USkeletalMeshComponent* SkeletalMeshComponent;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Item")
 	USphereComponent* Sphere;
 
 	virtual void OnInteract() override;
 
 	UFUNCTION()
-	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                          UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+	                          const FHitResult& SweepResult);
 
 	UFUNCTION()
-	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-	
+	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                        UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
 protected:
 	virtual void BeginPlay() override;
 };

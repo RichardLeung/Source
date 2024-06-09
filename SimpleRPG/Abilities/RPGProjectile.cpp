@@ -11,6 +11,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SimpleRPG/SimpleRPG.h"
+#include "SimpleRPG/Characters/RPGCharacterBase.h"
 
 
 // Sets default values
@@ -19,17 +20,17 @@ ARPGProjectile::ARPGProjectile()
 	// Create RootComponent
 	USceneComponent* Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	RootComponent = Root;
-	
+
 	PrimaryActorTick.bCanEverTick = false;
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 	Sphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	Sphere->SetCollisionObjectType(ECC_Projectile);
-	Sphere->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	Sphere->SetCollisionResponseToAllChannels(ECR_Ignore);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
 	Sphere->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Overlap);
 	Sphere->SetCollisionResponseToChannel(ECC_Enemy, ECR_Overlap);
 	Sphere->SetupAttachment(RootComponent);
-	
+
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
 	ProjectileMovement->InitialSpeed = 550.f;
 	ProjectileMovement->MaxSpeed = 550.f;
@@ -42,7 +43,7 @@ void ARPGProjectile::BeginPlay()
 	Super::BeginPlay();
 	SetLifeSpan(LifeSpan);
 	Sphere->OnComponentBeginOverlap.AddDynamic(this, &ARPGProjectile::OnSphereOverlap);
-	if(LoopingSound)
+	if (LoopingSound)
 	{
 		LoopingSoundComponent = UGameplayStatics::SpawnSoundAttached(LoopingSound, RootComponent);
 	}
@@ -50,33 +51,33 @@ void ARPGProjectile::BeginPlay()
 
 void ARPGProjectile::Destroyed()
 {
-	if(!bHit && !HasAuthority())
+	if (!bHit && !HasAuthority())
 	{
-		if(ImpactSound)
+		if (ImpactSound)
 		{
 			UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 		}
-		if(ImpactEffect)
+		if (ImpactEffect)
 		{
 			UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactEffect, GetActorLocation());
 		}
-		if(LoopingSound)
+		if (LoopingSound)
 		{
 			LoopingSoundComponent->Stop();
 		}
 	}
 	Super::Destroyed();
-	
 }
 
 void ARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-                                     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                     UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                     const FHitResult& SweepResult)
 {
-	if(ImpactSound)
+	if (ImpactSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 	}
-	if(ImpactEffect)
+	if (ImpactEffect)
 	{
 		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactEffect, GetActorLocation());
 	}
@@ -84,16 +85,21 @@ void ARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor
 	{
 		LoopingSoundComponent->Stop();
 	}
-	if(HasAuthority())
+	if (HasAuthority())
 	{
-		if(UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
+		if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(OtherActor))
 		{
 			TargetASC->ApplyGameplayEffectSpecToSelf(*DamageEffectSpecHandle.Data.Get());
 		}
+		ARPGCharacterBase* TargetCharacter = Cast<ARPGCharacterBase>(OtherActor);
+		if (TargetCharacter)
+		{
+			TargetCharacter->GetHit(SweepResult.ImpactPoint);
+		}
 		Destroy();
-	}else
+	}
+	else
 	{
 		bHit = true;
 	}
 }
-

@@ -10,7 +10,8 @@
 #include "SimpleRPG/Interfaces/CombatInterface.h"
 
 void URPGGameAbility_Projectile::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
-                                                 const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+                                                 const FGameplayAbilityActorInfo* ActorInfo,
+                                                 const FGameplayAbilityActivationInfo ActivationInfo,
                                                  const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
@@ -19,24 +20,24 @@ void URPGGameAbility_Projectile::ActivateAbility(const FGameplayAbilitySpecHandl
 void URPGGameAbility_Projectile::SpawnProjectile()
 {
 	ICombatInterface* CombatInterface = Cast<ICombatInterface>(GetAvatarActorFromActorInfo());
-	if(CombatInterface)
+	if (CombatInterface)
 	{
 		FVector CombatSocketLocation = CombatInterface->GetCombatProjectileLocation();
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(CombatSocketLocation);
-		
+
 		ARPGProjectile* Projectile = GetWorld()->SpawnActorDeferred<ARPGProjectile>(
 			ProjectileClass, SpawnTransform,
 			GetOwningActorFromActorInfo(),
 			Cast<APawn>(GetOwningActorFromActorInfo()),
 			ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetAvatarActorFromActorInfo());
-		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(GameplayEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+		const UAbilitySystemComponent* SourceASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(
+			GetAvatarActorFromActorInfo());
+		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(
+			GameplayEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 
 		Projectile->FinishSpawning(SpawnTransform);
 	}
 }
-
-

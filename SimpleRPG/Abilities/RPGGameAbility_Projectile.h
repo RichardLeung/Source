@@ -16,14 +16,16 @@ UCLASS()
 class SIMPLERPG_API URPGGameAbility_Projectile : public URPGGameplayAbility
 {
 	GENERATED_BODY()
-public:
-	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
-protected:
 
+public:
+	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
+	                             const FGameplayAbilityActivationInfo ActivationInfo,
+	                             const FGameplayEventData* TriggerEventData) override;
+
+protected:
 	UPROPERTY()
 	FGameplayEffectSpecHandle DamageSpecHandle;
 
-	
 
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
 	void SpawnProjectile();

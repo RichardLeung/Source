@@ -11,9 +11,9 @@
 
 URPGAttributeSet::URPGAttributeSet()
 	: Health(100.f)
-	, MaxHealth(100.f)
-	, Mana(50.f)
-	, MaxMana(50.f)
+	  , MaxHealth(100.f)
+	  , Mana(50.f)
+	  , MaxMana(50.f)
 {
 }
 
@@ -48,16 +48,15 @@ void URPGAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldValue) con
 
 void URPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-
 	Super::PostGameplayEffectExecute(Data);
 	UE_LOG(LogTemp, Warning, TEXT("PostGameplayEffectExecute GE生效： %s"), *Data.EvaluatedData.Attribute.GetName());
 	ARPGCharacterBase* TargetCharater = nullptr;
-	if(Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
+	if (Data.Target.AbilityActorInfo.IsValid() && Data.Target.AbilityActorInfo->AvatarActor.IsValid())
 	{
 		AActor* TargetActor = Data.Target.AbilityActorInfo->AvatarActor.Get();
 		TargetCharater = Cast<ARPGCharacterBase>(TargetActor);
 	}
-	if(TargetCharater != nullptr)
+	if (TargetCharater != nullptr)
 	{
 		if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 		{
@@ -72,10 +71,19 @@ void URPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 
 void URPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
-	UE_LOG(LogTemp, Warning, TEXT("PreAttributeChange GE生效： %f"), NewValue);
 	if (Attribute == GetHealthAttribute())
 	{
 		NewValue = FMath::Clamp(NewValue, 0.f, GetMaxHealth());
+		UE_LOG(LogTemp, Warning, TEXT("PreAttributeChange GE生效： %f"), NewValue);
+		AActor* TargetActor = GetActorInfo()->OwnerActor.Get();
+		ARPGCharacterBase* TargetCharater = Cast<ARPGCharacterBase>(TargetActor);
+		if (TargetCharater)
+		{
+			if (NewValue <= 0)
+			{
+				TargetCharater->OnDie();
+			}
+		}
 	}
 	Super::PreAttributeChange(Attribute, NewValue);
 }

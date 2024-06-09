@@ -15,7 +15,7 @@ class SIMPLERPG_API ARPGCharacterBase : public ACharacter, public ICombatInterfa
 public:
 	// Sets default values for this character's properties
 	ARPGCharacterBase();
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

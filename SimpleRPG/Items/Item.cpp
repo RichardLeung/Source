@@ -12,7 +12,7 @@ AItem::AItem()
 	PrimaryActorTick.bCanEverTick = true;
 	USceneComponent* Scene = CreateDefaultSubobject<USceneComponent>(TEXT("Scene"));
 	SetRootComponent(Scene);
-	
+
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	StaticMeshComponent->SetupAttachment(Scene);
 
@@ -34,10 +34,10 @@ void AItem::BeginPlay()
 void AItem::OnInteract()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AItem Interact：%s"), *this->GetName());
-	ARPGPlayerControllerBase *PlayerController = Cast<ARPGPlayerControllerBase>(GetWorld()->GetFirstPlayerController());
-	if(PlayerController)
+	ARPGPlayerControllerBase* PlayerController = Cast<ARPGPlayerControllerBase>(GetWorld()->GetFirstPlayerController());
+	if (PlayerController)
 	{
-		if(ItemData->ItemType == EItemType::Weapon)
+		if (ItemData->ItemType == EItemType::Weapon)
 		{
 			PlayerController->AddInventoryItem(ItemData);
 			UE_LOG(LogTemp, Warning, TEXT("拾取物品"));
@@ -48,11 +48,12 @@ void AItem::OnInteract()
 }
 
 void AItem::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                 UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep,
+                                 const FHitResult& SweepResult)
 {
 	if (ARPGPlayerCharacter* PlayerCharacter = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
-		AItem *Item = Cast<AItem>(this);
+		AItem* Item = Cast<AItem>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
 		InteractableInterface.SetInterface(Cast<IRPGInteractInterface>(Item));
 		InteractableInterface.SetObject(Item);
@@ -62,11 +63,11 @@ void AItem::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 }
 
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+                               UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (ARPGPlayerCharacter* PlayerCharacter = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
-		AItem *Item = Cast<AItem>(this);
+		AItem* Item = Cast<AItem>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
 		InteractableInterface.SetInterface(Cast<IRPGInteractInterface>(Item));
 		InteractableInterface.SetObject(Item);
@@ -79,4 +80,3 @@ void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
-

@@ -20,7 +20,6 @@ class SIMPLERPG_API AWeapon : public AActor
 	GENERATED_BODY()
 
 public:
-
 	AWeapon();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Item")
@@ -31,13 +30,13 @@ public:
 	void Equip(USceneComponent* InParent, FName InSocketName);
 
 	void SetEnableCollision(ECollisionEnabled::Type NewCollisionEnabled);
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Weapon")
 	USkeletalMeshComponent* SkeletalMesh;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Weapon")
 	UBoxComponent* WeaponBox;
-	
+
 	UPROPERTY(VisibleAnywhere, Category="Weapon")
 	USoundBase* EquipSound;
 
@@ -53,8 +52,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	
-	UFUNCTION()
-	void OnBoxOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-};
 
+	UFUNCTION()
+	void OnBoxOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                       int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+};

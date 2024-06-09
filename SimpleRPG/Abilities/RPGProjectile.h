@@ -31,16 +31,16 @@ protected:
 	virtual void Destroyed() override;
 
 	UFUNCTION()
-	void OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+	                     int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 private:
-
 	UPROPERTY(EditDefaultsOnly)
 	float LifeSpan = 5.f;
-	
+
 	bool bHit = false;
-	
-	UPROPERTY(VisibleAnywhere)	
+
+	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<USphereComponent> Sphere;
 
 	UPROPERTY(EditAnywhere)

@@ -11,7 +11,7 @@
 // Sets default values
 ARPGNPCCharacter::ARPGNPCCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
+	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("WidgetComponent"));
@@ -24,29 +24,32 @@ ARPGNPCCharacter::ARPGNPCCharacter()
 
 
 void ARPGNPCCharacter::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-                                            UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bBFromSweep, const FHitResult& SweepResult)
+                                            UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bBFromSweep,
+                                            const FHitResult& SweepResult)
 {
 	if (ARPGPlayerCharacter* Interactable = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
-		ARPGNPCCharacter *Item = Cast<ARPGNPCCharacter>(this);
+		ARPGNPCCharacter* Item = Cast<ARPGNPCCharacter>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
 		InteractableInterface.SetInterface(Cast<IRPGInteractInterface>(Item));
 		InteractableInterface.SetObject(Item);
-		InteractableInterface->Execute_SetInteractableType(InteractableInterface.GetObject(), EInteractableType::Character);
+		InteractableInterface->Execute_SetInteractableType(InteractableInterface.GetObject(),
+		                                                   EInteractableType::Character);
 		PlayerCharacter->AddInteractableItem(InteractableInterface);
 	}
 }
 
 void ARPGNPCCharacter::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+                                          UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if (ARPGPlayerCharacter* Interactable = Cast<ARPGPlayerCharacter>(OtherActor))
 	{
-		ARPGNPCCharacter *Item = Cast<ARPGNPCCharacter>(this);
+		ARPGNPCCharacter* Item = Cast<ARPGNPCCharacter>(this);
 		TScriptInterface<IRPGInteractInterface> InteractableInterface;
 		InteractableInterface.SetInterface(Cast<IRPGInteractInterface>(Item));
 		InteractableInterface.SetObject(Item);
-		InteractableInterface->Execute_SetInteractableType(InteractableInterface.GetObject(), EInteractableType::Character);
+		InteractableInterface->Execute_SetInteractableType(InteractableInterface.GetObject(),
+		                                                   EInteractableType::Character);
 		PlayerCharacter->RemoveInteractableItem(InteractableInterface);
 	}
 }
@@ -69,10 +72,12 @@ void ARPGNPCCharacter::Tick(float DeltaTime)
 		WidgetComponent->SetVisibility(true);
 		FVector LookAtTarget = PlayerCharacter->Camera->GetComponentLocation();
 		FVector ToTarget = LookAtTarget - GetActorLocation();
-		FRotator LookAtRotation = FRotator(0.f,ToTarget.Rotation().Yaw,0.f);
+		FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw, 0.f);
 		WidgetComponent->SetWorldRotation(
-			FMath::RInterpTo(WidgetComponent->GetComponentRotation(),LookAtRotation,UGameplayStatics::GetWorldDeltaSeconds(GetWorld()),5.f));
-	}else
+			FMath::RInterpTo(WidgetComponent->GetComponentRotation(), LookAtRotation,
+			                 UGameplayStatics::GetWorldDeltaSeconds(GetWorld()), 5.f));
+	}
+	else
 	{
 		WidgetComponent->SetVisibility(false);
 	}
@@ -82,12 +87,11 @@ void ARPGNPCCharacter::Tick(float DeltaTime)
 void ARPGNPCCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
 }
 
 void ARPGNPCCharacter::OnInteract()
 {
-	if(PlayerCharacter)
+	if (PlayerCharacter)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("与NPC交互"));
 		// 与NPC对话
@@ -98,11 +102,11 @@ void ARPGNPCCharacter::OnInteract()
 
 bool ARPGNPCCharacter::InShowRange()
 {
-	if(PlayerCharacter)
+	if (PlayerCharacter)
 	{
-		float Distance = FVector::Dist(GetActorLocation(),PlayerCharacter->GetActorLocation());
+		float Distance = FVector::Dist(GetActorLocation(), PlayerCharacter->GetActorLocation());
 		// Check to see if Tank is in range
-		if(Distance <= ShowRange && Distance >= InteractRange)
+		if (Distance <= ShowRange && Distance >= InteractRange)
 		{
 			// If in range, rotate turret toward Tank
 			return true;
@@ -110,4 +114,3 @@ bool ARPGNPCCharacter::InShowRange()
 	}
 	return false;
 }
-

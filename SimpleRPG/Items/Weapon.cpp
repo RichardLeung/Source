@@ -14,9 +14,9 @@ AWeapon::AWeapon()
 	WeaponBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Weapon Collision"));
 	WeaponBox->SetupAttachment(GetRootComponent());
 	WeaponBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	WeaponBox->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-	WeaponBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-	WeaponBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Ignore);
+	WeaponBox->SetCollisionObjectType(ECC_WorldDynamic);
+	WeaponBox->SetCollisionResponseToAllChannels(ECR_Overlap);
+	WeaponBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 
 	BoxTraceStart = CreateDefaultSubobject<USceneComponent>(TEXT("Box Start"));
 	BoxTraceStart->SetupAttachment(GetRootComponent());
@@ -30,7 +30,7 @@ void AWeapon::InitWeapon(UWeaponData* ItemData)
 	if (ItemData)
 	{
 		WeaponData = ItemData;
-		if(WeaponData)
+		if (WeaponData)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("InitWeapon: %s"), *ItemData->GetPrimaryAssetId().ToString());
 			SkeletalMesh->SetSkeletalMesh(WeaponData->WeaponSkeletalMesh);
@@ -45,12 +45,14 @@ void AWeapon::InitWeapon(UWeaponData* ItemData)
 
 void AWeapon::Equip(USceneComponent* InParent, FName InSocketName)
 {
-	SkeletalMesh->AttachToComponent(InParent, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, true), InSocketName);
+	SkeletalMesh->AttachToComponent(
+		InParent, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget,
+		                                    EAttachmentRule::SnapToTarget, true), InSocketName);
 }
 
 void AWeapon::SetEnableCollision(ECollisionEnabled::Type NewCollisionEnabled)
 {
-	if(WeaponBox)
+	if (WeaponBox)
 	{
 		WeaponBox->SetCollisionEnabled(NewCollisionEnabled);
 	}
@@ -63,7 +65,7 @@ void AWeapon::BeginPlay()
 }
 
 void AWeapon::OnBoxOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-                             int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+                                int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	const FVector Start = BoxTraceStart->GetComponentLocation();
 	const FVector End = BoxTraceEnd->GetComponentLocation();
@@ -80,23 +82,21 @@ void AWeapon::OnBoxOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		this,
 		Start,
 		End,
-		FVector(5.f,5.f,5.f),
+		FVector(5.f, 5.f, 5.f),
 		BoxTraceStart->GetComponentRotation(),
-		ETraceTypeQuery::TraceTypeQuery1,
+		TraceTypeQuery1,
 		false,
 		ActorsToIgnore,
 		EDrawDebugTrace::ForDuration,
 		HitResult,
 		true);
-	if(HitResult.GetActor())
+	if (HitResult.GetActor())
 	{
 		ICombatInterface* HitInterface = Cast<ICombatInterface>(HitResult.GetActor());
-		if(HitInterface)
+		if (HitInterface)
 		{
 			HitInterface->GetHit(HitResult.ImpactPoint);
 		}
 		IgnoreActors.AddUnique(HitResult.GetActor());
 	}
 }
-
-

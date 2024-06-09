@@ -39,7 +39,7 @@ public:
 	// ASC本质上是一个UActorComponent,用于处理整个框架下的交互逻辑，包括使用技能（GameplayAbility）、包含属性（AttributeSet）、处理各种效果（GameplayEffect）
 	// 修改：声明ASC
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GameplayAbilities)
-	UAbilitySystemComponent* AbilitySystemComponent; 
+	UAbilitySystemComponent* AbilitySystemComponent;
 
 	// 修改：实现接口方法
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -50,7 +50,7 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category="Attributes")
 	class URPGAttributeSet* AttributeSet;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UCameraComponent* Camera;
 
@@ -60,7 +60,7 @@ public:
 	// 当前与玩家交互的NPC
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Interact)
 	ARPGNPCCharacter* CurrentInteractingNPC;
-	
+
 	UPROPERTY(BlueprintReadOnly, Category = "Interactable")
 	TArray<TScriptInterface<IRPGInteractInterface>> InteractableItems;
 
@@ -117,16 +117,16 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, Category = "State", meta = (AllowPrivateAccess = "true"))
 	EActionState ActionState = EActionState::EAS_Unoccupied;
-	
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm;
-	
+
 	UPROPERTY(VisibleAnywhere, Category=Hair)
 	UGroomComponent* Hair;
 
 	UPROPERTY(VisibleAnywhere, Category=Hair)
 	UGroomComponent* Eyebrows;
-	
+
 	int32 InteractIndex = 0;
 
 	bool IsShowMenu = false;
@@ -163,11 +163,11 @@ public:
 	void Skill();
 
 	void Ultimate();
-	
+
 	ARPGPlayerControllerBase* GetPlayerController() const;
-	
+
 	int32 AttackCounter = 0;
-	
+
 	bool bCanChainAttack = false;
 
 	bool bArmWeapon = true;
@@ -177,7 +177,7 @@ public:
 	bool CanDisArm();
 
 	bool CanArm();
-	
+
 	/**
 	 * Play montage function
 	 */
@@ -195,8 +195,6 @@ public:
 	void DisArm();
 
 	// void OnInventoryItemClick(UInventoryObject* InventoryObject);
-	
-public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void k2_Skill();
@@ -212,10 +210,10 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void k2_Arm();
-	
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void k2_DisArm();
-	
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnInteractItemsChanged();
 
@@ -227,16 +225,16 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnShopChanged(bool IsShow, const TArray<FShopItemInfo>& ShopItems);
-	
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void OnMapChanged(bool IsShow);
-	
-	virtual void OnHealthChanged();
+
+	virtual void OnHealthChanged() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void K2_OnHealthChanged();
 
-	virtual void OnManaChanged();
+	virtual void OnManaChanged() override;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void K2_OnManaChanged();
@@ -250,7 +248,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetWeaponCollisionEnabled(ECollisionEnabled::Type CollisionEnabled);
-	
+
 	UFUNCTION(BlueprintCallable)
 	void SetCharacterState(ECharacterState NewState);
 
@@ -277,6 +275,5 @@ public:
 	UAnimMontage* EquipAnimMontage;
 
 
-public:
 	virtual FVector GetCombatProjectileLocation() override;
 };

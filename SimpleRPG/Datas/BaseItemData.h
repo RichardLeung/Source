@@ -25,4 +25,3 @@ struct FBaseItemData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	int32 MaxStackSize;
 };
-

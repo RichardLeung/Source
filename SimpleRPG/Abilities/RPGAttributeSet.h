@@ -21,42 +21,41 @@ UCLASS()
 class SIMPLERPG_API URPGAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
+
 public:
-	
 	URPGAttributeSet();
 
 
-	virtual  void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
-	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(URPGAttributeSet, Health);
-	
+
 	UFUNCTION()
 	void OnRep_Health(const FGameplayAttributeData& OldValue) const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(URPGAttributeSet, MaxHealth);
-	
+
 	UFUNCTION()
 	void OnRep_MaxHealth(const FGameplayAttributeData& OldValue) const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character")
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(URPGAttributeSet, Mana);
-	
+
 	UFUNCTION()
 	void OnRep_Mana(const FGameplayAttributeData& OldValue) const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Character")
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(URPGAttributeSet, MaxMana);
-	
+
 	UFUNCTION()
 	void OnRep_MaxMana(const FGameplayAttributeData& OldValue) const;
 
-public:
 	// 属性修改前回调
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 

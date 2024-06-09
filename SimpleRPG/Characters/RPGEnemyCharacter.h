@@ -17,11 +17,11 @@ class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase
 
 public:
 	ARPGEnemyCharacter();
-	
+
 	virtual void Tick(float DeltaTime) override;
-	
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 	void DirectionalHit(const FVector& ImpactPoint);
 
 	virtual void GetHit(const FVector& ImpactPoint) override;
@@ -62,7 +62,6 @@ public:
 	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* HitAnimMontage;
-
 
 private:
 	UPROPERTY()

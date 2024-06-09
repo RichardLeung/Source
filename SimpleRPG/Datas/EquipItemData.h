@@ -13,5 +13,4 @@ UCLASS()
 class SIMPLERPG_API UEquipItemData : public UItemData
 {
 	GENERATED_BODY()
-	
 };

@@ -21,4 +21,3 @@ struct FCharacterData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Item")
 	UTexture2D* Avatar;
 };
-

@@ -43,7 +43,7 @@ bool ARPGPlayerControllerBase::GetInventoryItemData(UItemData* Item, FRPGItemDat
 bool ARPGPlayerControllerBase::AddInventoryItem(UItemData* NewItem, int32 ItemCount, int32 ItemLevel)
 {
 	UE_LOG(LogTemp, Warning, TEXT("添加道具开始"));
-	if(NewItem->ItemType == EItemType::Weapon)
+	if (NewItem->ItemType == EItemType::Weapon)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("添加武器"));
 		// 从GameInstance中获取武器数据
@@ -134,7 +134,7 @@ bool ARPGPlayerControllerBase::RemoveInventoryItem(UItemData* RemovedItem, int32
 		SaveInventory();
 		return true;
 	}
-	return false;	
+	return false;
 }
 
 void ARPGPlayerControllerBase::GetInventoryItems(TArray<UItemData*>& Items, FPrimaryAssetType ItemType)
@@ -150,7 +150,7 @@ void ARPGPlayerControllerBase::GetInventoryItems(TArray<UItemData*>& Items, FPri
 			{
 				Items.Add(Pair.Key);
 			}
-		}	
+		}
 	}
 }
 
@@ -165,10 +165,10 @@ bool ARPGPlayerControllerBase::SaveInventory()
 		// Reset cached data in save game before writing to it
 		CurrentSaveGame->InventoryData.Reset();
 
-		for (const TPair<UItemData*, FRPGItemData>& ItemPair: InventoryData)
+		for (const TPair<UItemData*, FRPGItemData>& ItemPair : InventoryData)
 		{
 			FPrimaryAssetId PrimaryAssetId;
-			if(ItemPair.Key)
+			if (ItemPair.Key)
 			{
 				PrimaryAssetId = ItemPair.Key->GetPrimaryAssetId();
 				CurrentSaveGame->InventoryData.Add(PrimaryAssetId, ItemPair.Value);
@@ -195,27 +195,27 @@ bool ARPGPlayerControllerBase::LoadInventory()
 	// 从游戏实例中填充插槽
 	UWorld* World = GetWorld();
 	URPGGameInstanceBase* GameInstance = World ? World->GetGameInstance<URPGGameInstanceBase>() : nullptr;
-	if(!GameInstance)
+	if (!GameInstance)
 	{
 		return false;
 	}
 	// Bind to loaded callback if not already bound
 	// 如果尚未绑定，请绑定到已加载的回调
-	if(!GameInstance->OnSaveGameLoaded.IsAlreadyBound(this, &ARPGPlayerControllerBase::HandleSaveGameLoaded))
+	if (!GameInstance->OnSaveGameLoaded.IsAlreadyBound(this, &ARPGPlayerControllerBase::HandleSaveGameLoaded))
 	{
 		GameInstance->OnSaveGameLoaded.AddDynamic(this, &ARPGPlayerControllerBase::HandleSaveGameLoaded);
 	}
 
 	URPGSaveGame* CurrentSaveGame = GameInstance->GetCurrentSaveGame();
 	URPGAssetManager& AssetManager = URPGAssetManager::Get();
-	if(CurrentSaveGame)
+	if (CurrentSaveGame)
 	{
 		// Copy from save game into controller data
 		// 从保存游戏复制到控制器数据
 		for (const TPair<FPrimaryAssetId, FRPGItemData>& ItemPair : CurrentSaveGame->InventoryData)
 		{
 			UItemData* Item = AssetManager.ForceLoadItem(ItemPair.Key);
-			if(Item)
+			if (Item)
 			{
 				InventoryData.Add(Item, ItemPair.Value);
 			}

@@ -15,7 +15,7 @@ UCLASS()
 class SIMPLERPG_API UURPGSkill : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
-	
+
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Skill")
 	FText SkillName;

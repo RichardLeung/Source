@@ -6,7 +6,8 @@
 #include "Kismet/KismetSystemLibrary.h"
 
 void URPGGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
-                                          const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+                                          const FGameplayAbilityActorInfo* ActorInfo,
+                                          const FGameplayAbilityActivationInfo ActivationInfo,
                                           const FGameplayEventData* TriggerEventData)
 {
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);

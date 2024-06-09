@@ -12,11 +12,8 @@ URPGAssetManager& URPGAssetManager::Get()
 	{
 		return *This;
 	}
-	else
-	{
-		UE_LOG(LogTemp, Fatal, TEXT("Invalid AssetManager in DefaultEngine.ini, must be RPGAssetManager!"));
-		return *NewObject<URPGAssetManager>(); // never calls this
-	}
+	UE_LOG(LogTemp, Fatal, TEXT("Invalid AssetManager in DefaultEngine.ini, must be RPGAssetManager!"));
+	return *NewObject<URPGAssetManager>(); // never calls this
 }
 
 void URPGAssetManager::StartInitialLoading()
@@ -27,7 +24,7 @@ void URPGAssetManager::StartInitialLoading()
 }
 
 UItemData* URPGAssetManager::ForceLoadItem(const FPrimaryAssetId& PrimaryAssetId, bool bLogWarning)
-{	
+{
 	FSoftObjectPath ItemPath = GetPrimaryAssetPath(PrimaryAssetId);
 
 	// This does a synchronous load and may hitch

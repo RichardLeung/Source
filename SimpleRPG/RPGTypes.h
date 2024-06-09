@@ -17,13 +17,15 @@ struct SIMPLERPG_API FRPGItemData
 	/** Constructor, default to count/level 1 so declaring them in blueprints gives you the expected behavior */
 	FRPGItemData()
 		: ItemCount(1)
-		, ItemLevel(1)
-	{}
+		  , ItemLevel(1)
+	{
+	}
 
 	FRPGItemData(int32 InItemCount, int32 InItemLevel)
 		: ItemCount(InItemCount)
-		, ItemLevel(InItemLevel)
-	{}
+		  , ItemLevel(InItemLevel)
+	{
+	}
 
 	/** The number of instances of this item in the inventory, can never be below 1 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
@@ -38,6 +40,7 @@ struct SIMPLERPG_API FRPGItemData
 	{
 		return ItemCount == Other.ItemCount && ItemLevel == Other.ItemLevel;
 	}
+
 	bool operator!=(const FRPGItemData& Other) const
 	{
 		return !(*this == Other);
@@ -70,14 +73,17 @@ struct SIMPLERPG_API FRPGItemData
 /** Delegate called when an inventory item changes */
 //当背包物品改变时调用的委托
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnInventoryItemChanged, bool, bAdded, UItemData*, Item);
+
 DECLARE_MULTICAST_DELEGATE_TwoParams(FOnInventoryItemChangedNative, bool, UItemData*);
 
 /** Delegate called when the save game has been loaded/reset */
 //当存档被加载或重置时调用的委托
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnSaveGameLoaded, URPGSaveGame*, SaveGame);
+
 DECLARE_MULTICAST_DELEGATE_OneParam(FOnSaveGameLoadedNative, URPGSaveGame*);
 
 /** Delegate called when the entire inventory has been loaded, all items may have been replaced */
 //当整个背包被加载时调用的委托，所有物品都可能被替换
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInventoryLoaded);
+
 DECLARE_MULTICAST_DELEGATE(FOnInventoryLoadedNative);

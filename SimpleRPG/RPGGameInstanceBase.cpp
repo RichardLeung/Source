@@ -11,9 +11,8 @@
 
 URPGGameInstanceBase::URPGGameInstanceBase()
 	: SaveSlot(TEXT("SaveGame"))
-	, SaveUserIndex(0)
+	  , SaveUserIndex(0)
 {
-	
 }
 
 void URPGGameInstanceBase::Init()
@@ -41,7 +40,7 @@ void URPGGameInstanceBase::LoadDataTables()
 		WeaponDataNew.Add(RowName, *RowData);
 	}
 	WeaponData = WeaponDataNew;
-	
+
 	//加载角色数据表
 	CharacterDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Character.DT_Character"));
 	TArray<FName> AllCharacterKeys = CharacterDataTable->GetRowNames();
@@ -67,9 +66,9 @@ URPGSaveGame* URPGGameInstanceBase::GetCurrentSaveGame()
 
 bool URPGGameInstanceBase::WriteSaveGame()
 {
-	if(bSavingEnabled)
+	if (bSavingEnabled)
 	{
-		if(bCurrentlySaving)
+		if (bCurrentlySaving)
 		{
 			// Schedule another save to happen after current one finishes. We only queue one save
 			// 在当前保存完成后安排另一个保存。我们只排队一个保存
@@ -80,7 +79,9 @@ bool URPGGameInstanceBase::WriteSaveGame()
 		// 表明我们正在进行异步保存
 		bCurrentlySaving = true;
 
-		UGameplayStatics::AsyncSaveGameToSlot(GetCurrentSaveGame(), SaveSlot, SaveUserIndex, FAsyncSaveGameToSlotDelegate::CreateUObject(this, &URPGGameInstanceBase::HandleAsyncSave));
+		UGameplayStatics::AsyncSaveGameToSlot(GetCurrentSaveGame(), SaveSlot, SaveUserIndex,
+		                                      FAsyncSaveGameToSlotDelegate::CreateUObject(
+			                                      this, &URPGGameInstanceBase::HandleAsyncSave));
 	}
 	return false;
 }

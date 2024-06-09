@@ -21,14 +21,12 @@ class SIMPLERPG_API IRPGInventoryInterface
 	GENERATED_BODY()
 
 public:
-	
 	/** Returns the map of items to data */
 	virtual const TMap<UItemData*, FRPGItemData>& GetInventoryDataMap() const = 0;
-    
+
 	/** Gets the delegate for inventory item changes */
 	virtual FOnInventoryItemChangedNative& GetInventoryItemChangedDelegate() = 0;
-    
+
 	/** Gets the delegate for when the inventory loads */
 	virtual FOnInventoryLoadedNative& GetInventoryLoadedDelegate() = 0;
 };
-

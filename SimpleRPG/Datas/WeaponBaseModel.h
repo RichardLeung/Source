@@ -4,14 +4,14 @@
 #include "WeaponBaseModel.generated.h"
 
 USTRUCT(BlueprintType)
-struct FWeaponBaseModel: public FTableRowBase
+struct FWeaponBaseModel : public FTableRowBase
 {
 	GENERATED_BODY()
 
 	// 武器名称
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	FName Name;
-	
+
 	// 武器描述
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	FText Description;
@@ -19,7 +19,7 @@ struct FWeaponBaseModel: public FTableRowBase
 	// 武器图标
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	UTexture2D* Icon;
-	
+
 	// 武器品质
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	int32 Quality;
@@ -28,6 +28,3 @@ struct FWeaponBaseModel: public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	TSoftObjectPtr<UDataAsset> WeaponData;
 };
-
-
-

@@ -22,9 +22,9 @@ class SIMPLERPG_API ARPGPlayerControllerBase : public APlayerController, public 
 public:
 	// Constructor and overrides
 	ARPGPlayerControllerBase();
-	
+
 	virtual void BeginPlay() override;
-	
+
 	/** Map of all items owned by this player, from definition to data */
 	// 由此玩家拥有的所有道具的映射，从定义到数据
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
@@ -35,7 +35,7 @@ public:
 	{
 		return WeaponNextId++;
 	}
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Inventory)
 	TMap<int32, UWeaponModel*> Weapons;
 

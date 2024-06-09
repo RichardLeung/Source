@@ -26,10 +26,9 @@ class SIMPLERPG_API URPGGameInstanceBase : public UGameInstance
 	URPGGameInstanceBase();
 
 public:
-
 	virtual void Init() override;
 
-	
+
 	void LoadDataTables();
 
 	UPROPERTY()
@@ -43,7 +42,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TMap<FName, FCharacterData> CharacterData;
-	
+
 	/** The slot name used for saving */
 	// 用于保存的插槽名称
 	UPROPERTY(BlueprintReadWrite, Category = Save)
@@ -100,5 +99,4 @@ protected:
 	/** Called when the async save happens */
 	// 异步保存时调用
 	virtual void HandleAsyncSave(const FString& SlotName, const int32 UserIndex, bool bSuccess);
-	
 };

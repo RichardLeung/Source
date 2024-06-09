@@ -23,7 +23,7 @@ public:
 	// 武器等级
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	int32 Level;
-	
+
 	// 武器当前装备的角色
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
 	FName EquippedCharacter;

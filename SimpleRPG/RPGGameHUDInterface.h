@@ -24,4 +24,3 @@ public:
 	virtual void OnManaChanged(float Mana) = 0;
 	virtual void OnInteractItemsChanged(const TArray<class AInteractItem*>& InteractItems) = 0;
 };
-

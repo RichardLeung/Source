@@ -18,5 +18,4 @@ class SIMPLERPG_API UInventoryObject : public UObject
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory Object")
 	UItemData* ItemData;
-	
 };

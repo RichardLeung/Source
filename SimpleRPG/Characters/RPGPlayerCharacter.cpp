@@ -32,7 +32,7 @@ ARPGPlayerCharacter::ARPGPlayerCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-	
+
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.f, 360.f, 0.f);
 
@@ -68,22 +68,22 @@ ARPGPlayerCharacter::ARPGPlayerCharacter()
 void ARPGPlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	if(AbilitySystemComponent)
+	if (AbilitySystemComponent)
 	{
 		// 修改：给ASC赋予技能
 		if (HasAuthority() && MyAbilities.Num() > 0)
 		{
 			for (auto i = 0; i < MyAbilities.Num(); i++)
 			{
-				if(MyAbilities[i])
+				if (MyAbilities[i])
 				{
-					AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(MyAbilities[i].GetDefaultObject(),1,0));
+					AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(MyAbilities[i].GetDefaultObject(), 1, 0));
 				}
 			}
 		}
 
 		// 修改：初始化ASC
-		AbilitySystemComponent->InitAbilityActorInfo(this,this);
+		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
@@ -142,7 +142,10 @@ void ARPGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 void ARPGPlayerCharacter::Move(const FInputActionValue& Value)
 {
-	if (ActionState != EActionState::EAS_Unoccupied) return;
+	if (ActionState != EActionState::EAS_Unoccupied)
+	{
+		return;
+	}
 	if (GetController() != nullptr)
 	{
 		const FVector2D MoveAxisVector = Value.Get<FVector2D>();
@@ -189,10 +192,11 @@ void ARPGPlayerCharacter::PlayAttackMontage()
 	}
 	else
 	{
-		if(AttackCounter < 2)
+		if (AttackCounter < 2)
 		{
 			AttackCounter++;
-		}else
+		}
+		else
 		{
 			ResetAttackCounter();
 		}
@@ -208,7 +212,7 @@ void ARPGPlayerCharacter::PlayAttackMontage()
 void ARPGPlayerCharacter::PlayEquipMontage(const FName& SectionName)
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	if(AnimInstance && EquipAnimMontage)
+	if (AnimInstance && EquipAnimMontage)
 	{
 		AnimInstance->Montage_Play(EquipAnimMontage);
 		AnimInstance->Montage_JumpToSection(SectionName, EquipAnimMontage);
@@ -221,14 +225,15 @@ void ARPGPlayerCharacter::AttackEnd()
 	bCanChainAttack = true;
 	UE_LOG(LogTemp, Warning, TEXT("退出攻击状态"));
 	// 设置一个延迟来重置AttackCounter
-	GetWorld()->GetTimerManager().SetTimer(ResetAttackCounterTimerHandle, this, &ARPGPlayerCharacter::ResetAttackCounter, 1.0f, false);
+	GetWorld()->GetTimerManager().SetTimer(ResetAttackCounterTimerHandle, this,
+	                                       &ARPGPlayerCharacter::ResetAttackCounter, 1.0f, false);
 }
 
 void ARPGPlayerCharacter::Attack(const FInputActionValue& Value)
 {
-	if(CanAttack())
+	if (CanAttack())
 	{
-		if(CanArm())
+		if (CanArm())
 		{
 			Test();
 			return;
@@ -245,12 +250,13 @@ void ARPGPlayerCharacter::Attack(const FInputActionValue& Value)
 
 void ARPGPlayerCharacter::Test()
 {
-	if(CanArm())
+	if (CanArm())
 	{
 		PlayEquipMontage("Equip");
 		bArmWeapon = !bArmWeapon;
 		ActionState = EActionState::EAS_Equipping;
-	}else if(CanDisArm())
+	}
+	else if (CanDisArm())
 	{
 		PlayEquipMontage("Unequip");
 		bArmWeapon = !bArmWeapon;
@@ -276,7 +282,7 @@ void ARPGPlayerCharacter::Ultimate()
 void ARPGPlayerCharacter::Interact()
 {
 	UE_LOG(LogTemp, Warning, TEXT("开始交互"));
-	if(InteractIndex > InteractableItems.Num() - 1)
+	if (InteractIndex > InteractableItems.Num() - 1)
 	{
 		return;
 	}
@@ -344,7 +350,7 @@ void ARPGPlayerCharacter::SetCharacterState(ECharacterState NewState)
 
 void ARPGPlayerCharacter::EquipWeapon(UWeaponData* WeaponData)
 {
-	if(WeaponData)
+	if (WeaponData)
 	{
 		UWorld* World = GetWorld();
 		if (World)
@@ -353,7 +359,8 @@ void ARPGPlayerCharacter::EquipWeapon(UWeaponData* WeaponData)
 			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 			FVector SpawnLocation = FVector::ZeroVector;
 			FRotator SpawnRotation = FRotator::ZeroRotator;
-			AWeapon* NewWeapon = World->SpawnActor<AWeapon>(AWeapon::StaticClass(), SpawnLocation, SpawnRotation, SpawnParams);
+			AWeapon* NewWeapon = World->SpawnActor<AWeapon>(AWeapon::StaticClass(), SpawnLocation, SpawnRotation,
+			                                                SpawnParams);
 			if (NewWeapon)
 			{
 				// Initialize the weapon with the provided ItemData.
@@ -363,7 +370,7 @@ void ARPGPlayerCharacter::EquipWeapon(UWeaponData* WeaponData)
 				// 调用装备方法将武器附加到玩家角色
 				NewWeapon->Equip(GetMesh(), FName(TEXT("RightHandSocket")));
 				// Set the EquippedWeapon variable.
-				if(CurrentWeapon)
+				if (CurrentWeapon)
 				{
 					CurrentWeapon->Destroy();
 				}
@@ -379,11 +386,17 @@ void ARPGPlayerCharacter::EquipWeapon(UWeaponData* WeaponData)
 
 void ARPGPlayerCharacter::SetInteractingNPC(ARPGNPCCharacter* NPC)
 {
-	if (!NPC) return;
+	if (!NPC)
+	{
+		return;
+	}
 	// 设置新的交互NPC
 	CurrentInteractingNPC = NPC;
 	URPGShopComponent* ShopComponent = NPC->FindComponentByClass<URPGShopComponent>();
-	if (!ShopComponent) return;
+	if (!ShopComponent)
+	{
+		return;
+	}
 	TArray<FShopItemInfo> ShopItems = ShopComponent->GetShopItems();
 	OnShopChanged(true, ShopItems);
 }
@@ -409,4 +422,3 @@ FVector ARPGPlayerCharacter::GetCombatProjectileLocation()
 	CombatSocketLocation.X += 50.f;
 	return CombatSocketLocation;
 }
-

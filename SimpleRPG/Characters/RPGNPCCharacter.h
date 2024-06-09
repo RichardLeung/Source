@@ -21,7 +21,7 @@ class SIMPLERPG_API ARPGNPCCharacter : public ARPGCharacterBase, public IRPGInte
 public:
 	// Sets default values for this character's properties
 	ARPGNPCCharacter();
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NPC")
 	FDataTableRowHandle CharacterDataTableRowHandle;
 
@@ -36,17 +36,20 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="NPC")
 	float InteractRange = 300.f;
-	
+
 protected:
 	UFUNCTION()
-	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bBFromSweep, const FHitResult& SweepResult);
-	
+	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                          UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bBFromSweep,
+	                          const FHitResult& SweepResult);
+
 	UFUNCTION()
-	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	                        UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -64,7 +67,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* Sphere;
-	
+
 	UFUNCTION()
 	bool InShowRange();
 };

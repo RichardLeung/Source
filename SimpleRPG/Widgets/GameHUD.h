@@ -21,12 +21,10 @@ class SIMPLERPG_API UGameHUD : public UUserWidget
 	GENERATED_BODY()
 
 
-public:
 	// Declare the event dispatcher
 	// FOnInventoryItemClick OnInventoryItemClick;
-	
+
 protected:
-	
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	UUserWidget* ShopWidget;
 
@@ -38,7 +36,4 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, meta = (BindWidget))
 	UTileView* InventoryWidget;
-
-	
-	
 };

@@ -13,5 +13,4 @@ UCLASS()
 class SIMPLERPG_API ASimpleRPGGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
-	
 };

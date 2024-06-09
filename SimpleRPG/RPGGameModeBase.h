@@ -17,7 +17,6 @@ class SIMPLERPG_API ARPGGameModeBase : public AGameModeBase
 public:
 	ARPGGameModeBase();
 
-public:
 	virtual void PawnKilled(APawn* PawnKilled);
 
 	virtual void EndGame(bool bIsPlayerWinner);

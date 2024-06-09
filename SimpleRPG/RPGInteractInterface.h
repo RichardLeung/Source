@@ -30,7 +30,6 @@ public:
 	// 设置交互对象的类型
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "Interactable")
 	void SetInteractableType(EInteractableType NewType);
-	
+
 	virtual void OnInteract() = 0;
 };
-

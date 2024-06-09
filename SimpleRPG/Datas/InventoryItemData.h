@@ -13,5 +13,4 @@ UCLASS()
 class SIMPLERPG_API UInventoryItemData : public UItemData
 {
 	GENERATED_BODY()
-	
 };

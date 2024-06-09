@@ -13,5 +13,4 @@ UCLASS()
 class SIMPLERPG_API ARPGPlayerState : public APlayerState
 {
 	GENERATED_BODY()
-	
 };

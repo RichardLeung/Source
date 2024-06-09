@@ -1,4 +1,3 @@
-
 #include "Engine/DataTable.h"
 #include "SkillData.generated.h"
 
@@ -63,4 +62,3 @@ struct FSkillData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
 	ESkillEffect SkillEffect;
 };
-

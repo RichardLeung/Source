@@ -18,10 +18,10 @@ void URPGSaveGame::Serialize(FArchive& Ar)
 			{
 				InventoryData.Add(ItemId, FRPGItemData(1, 1));
 			}
-	
+
 			InventoryItems_DEPRECATED.Empty();
 		}
-		
+
 		SavedDataVersion = ERPGSaveGameVersion::LatestVersion;
 	}
 }

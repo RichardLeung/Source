@@ -18,10 +18,12 @@ class SIMPLERPG_API URPGAssetManager : public UAssetManager
 
 public:
 	// Constructor and overrides
-	URPGAssetManager() {}
+	URPGAssetManager()
+	{
+	}
 
 	virtual void StartInitialLoading() override;
-	
+
 	/** Returns the current AssetManager object */
 	static URPGAssetManager& Get();
 
