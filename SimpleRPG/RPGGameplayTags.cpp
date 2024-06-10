@@ -82,4 +82,8 @@ void FRPGGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_DMGType_IceRESBoost = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.IceRESBoost"),
 		FString("伤害类型 - 冰霜抗性提升"));
+
+	GameplayTags.Attributes_IncomeDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Attributes.IncomeDamage"),
+		FString("收到伤害"));
 }

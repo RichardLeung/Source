@@ -152,6 +152,12 @@ public:
 	ATTRIBUTE_ACCESSORS(URPGAttributeSet, IceRESBoost);
 	UFUNCTION()
 	void OnRep_IceRESBoost(const FGameplayAttributeData& OldValue) const;
+
+	UPROPERTY(BlueprintReadOnly, Category = "收到伤害")
+	FGameplayAttributeData IncomeDamage;
+	ATTRIBUTE_ACCESSORS(URPGAttributeSet, IncomeDamage);
+	UFUNCTION()
+	void OnRep_IncomeDamage(const FGameplayAttributeData& OldValue) const;
 	
 	// 属性修改前回调
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;

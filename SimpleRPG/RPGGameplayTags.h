@@ -40,6 +40,8 @@ public:
 	FGameplayTag Attributes_DMGType_PhysicalRESBoost;
 	FGameplayTag Attributes_DMGType_IceRESBoost;
 
+	FGameplayTag Attributes_IncomeDamage;
+
 protected:
 	
 private:

@@ -1,38 +1,39 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "ExecCalc_Damage.h"
-
+#include "ExecCalc_InitCharacter.h"
 #include "AbilitySystemComponent.h"
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
 
-struct RPGDamageStatics
+struct RPGInitCharacterStatics
 {
 	DECLARE_ATTRIBUTE_CAPTUREDEF(HPCurrent);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(DEF);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ATK);
+	DECLARE_ATTRIBUTE_CAPTUREDEF(SPD);
 	
-	RPGDamageStatics()
+	
+	RPGInitCharacterStatics()
 	{
-		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, HPCurrent, Target, true)
-		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, DEF, Target, false)
-		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, ATK, Source, false)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, HPCurrent, Source, true)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, DEF, Source, true)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, ATK, Source, true)
 	}
 };
 
-static const RPGDamageStatics& DamageStatics()
+static const RPGInitCharacterStatics& InitCharacterStatics()
 {
-	static RPGDamageStatics DmgStatics;
-	return DmgStatics;
+	static RPGInitCharacterStatics InitCharacterStatics;
+	return InitCharacterStatics;
 }
 
-UExecCalc_Damage::UExecCalc_Damage()
+UExecCalc_InitCharacter::UExecCalc_InitCharacter()
 {
-	RelevantAttributesToCapture.Add(DamageStatics().ATKDef);
-	RelevantAttributesToCapture.Add(DamageStatics().DEFDef);
+	RelevantAttributesToCapture.Add(InitCharacterStatics().ATKDef);
+	RelevantAttributesToCapture.Add(InitCharacterStatics().DEFDef);
 }
 
-void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+void UExecCalc_InitCharacter::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                               FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();

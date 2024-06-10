@@ -13,9 +13,9 @@ URPGAttributeSet::URPGAttributeSet()
 	: HPCurrent(100.f)
 	, HPBase(100.f)
 	, HPAdd(0.f)
-	, ATK(1.f)
+	, ATK(10.f)
 	, ATKAdd(0.f)
-	, DEF(1.f)
+	, DEF(5.f)
 	, DEFAdd(0.f)
 	, SPD(1.f)
 	, SPDAdd(0.f)
@@ -31,6 +31,7 @@ URPGAttributeSet::URPGAttributeSet()
 	, FireRESBoost(0.f)
 	, PhysicalRESBoost(0.f)
 	, IceRESBoost(0.f)
+	, IncomeDamage(0.f)
 {
 }
 
@@ -58,6 +59,7 @@ void URPGAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION_NOTIFY(URPGAttributeSet, FireRESBoost, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(URPGAttributeSet, PhysicalRESBoost, COND_None, REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(URPGAttributeSet, IceRESBoost, COND_None, REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(URPGAttributeSet, IncomeDamage, COND_None, REPNOTIFY_Always);
 }
 
 void URPGAttributeSet::OnRep_HPCurrent(const FGameplayAttributeData& OldValue) const
@@ -182,6 +184,11 @@ void URPGAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbac
 			TargetCharater->OnHealthChanged();
 		}
 	}
+}
+
+void URPGAttributeSet::OnRep_IncomeDamage(const FGameplayAttributeData& OldValue) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(URPGAttributeSet, IncomeDamage, OldValue);
 }
 
 void URPGAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)

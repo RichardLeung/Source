@@ -85,6 +85,7 @@ void ARPGPlayerCharacter::BeginPlay()
 
 		// 修改：初始化ASC
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
+		InitBaseStatsAttributes();
 	}
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
@@ -97,6 +98,13 @@ void ARPGPlayerCharacter::BeginPlay()
 		}
 	}
 	OnHealthChanged();
+}
+
+void ARPGPlayerCharacter::InitBaseStatsAttributes() const
+{
+	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultBaseStatsAttributesEffect, 1, ContextHandle);
+	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
 }
 
 UAbilitySystemComponent* ARPGPlayerCharacter::GetAbilitySystemComponent() const

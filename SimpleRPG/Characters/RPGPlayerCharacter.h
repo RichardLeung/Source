@@ -10,11 +10,10 @@
 #include "InputMappingContext.h"
 #include "SimpleRPG/Items/Item.h"
 #include "AbilitySystemComponent.h"
-#include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "AbilitySystemInterface.h"
-#include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "RPGPlayerCharacter.generated.h"
 
+class URPGAbilitySystemComponent;
 class UInputAction;
 class UCameraComponent;
 class USpringArmComponent;
@@ -69,6 +68,17 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultBaseStatsAttributesEffect;
+
+	void InitBaseStatsAttributes() const;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> InitDefaultAdvancedStatsAttributesEffect;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> InitDefaultDMGTypeAttributesEffect;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
 	UInputMappingContext* InputMapping;
