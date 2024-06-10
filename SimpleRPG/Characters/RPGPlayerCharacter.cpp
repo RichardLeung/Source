@@ -17,6 +17,7 @@
 #include "Components/CapsuleComponent.h"
 #include "SimpleRPG/SimpleRPG.h"
 #include "RPGNPCCharacter.h"
+#include "SimpleRPG/Abilities/RPGAbilitySystemComponent.h"
 #include "SimpleRPG/Components/RPGShopComponent.h"
 #include "SimpleRPG/Datas/WeaponData.h"
 #include "SimpleRPG/Widgets/GameHUD.h"
@@ -57,7 +58,7 @@ ARPGPlayerCharacter::ARPGPlayerCharacter()
 	Eyebrows->AttachmentName = FString("head");
 
 	// 实例化ASC
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("Ability System Component"));
+	AbilitySystemComponent = CreateDefaultSubobject<URPGAbilitySystemComponent>(TEXT("Ability System Component"));
 
 	// Create the attribute set, this replicates by default
 	// 创建属性集，这个属性集默认是可以被复制的

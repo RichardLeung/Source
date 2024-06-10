@@ -7,6 +7,7 @@
 #include "AbilitySystemComponent.h"
 #include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
 #include "RPGProjectile.h"
+#include "SimpleRPG/RPGGameplayTags.h"
 #include "SimpleRPG/Interfaces/CombatInterface.h"
 
 void URPGGameAbility_Projectile::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
@@ -36,6 +37,9 @@ void URPGGameAbility_Projectile::SpawnProjectile()
 			GetAvatarActorFromActorInfo());
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(
 			GameplayEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
+		
+		FRPGGameplayTags GameplayTags = FRPGGameplayTags::Get();
+		UAbilitySystemBlueprintLibrary::AssignTagSetByCallerMagnitude(SpecHandle, GameplayTags.Attributes_BaseStats_HPCurrent, -50.0f);
 		Projectile->DamageEffectSpecHandle = SpecHandle;
 
 		Projectile->FinishSpawning(SpawnTransform);

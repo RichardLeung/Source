@@ -39,7 +39,7 @@ public:
 	// ASC本质上是一个UActorComponent,用于处理整个框架下的交互逻辑，包括使用技能（GameplayAbility）、包含属性（AttributeSet）、处理各种效果（GameplayEffect）
 	// 修改：声明ASC
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = GameplayAbilities)
-	UAbilitySystemComponent* AbilitySystemComponent;
+	URPGAbilitySystemComponent* AbilitySystemComponent;
 
 	// 修改：实现接口方法
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
