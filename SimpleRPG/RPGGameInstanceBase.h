@@ -27,12 +27,11 @@ class SIMPLERPG_API URPGGameInstanceBase : public UGameInstance
 
 public:
 	virtual void Init() override;
-
-
+	
 	void LoadDataTables();
 
 	UPROPERTY()
-	UDataTable* WeaponDataTable;
+	UDataTable* DT_Weapons;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TMap<FName, FWeaponBaseModel> WeaponData;

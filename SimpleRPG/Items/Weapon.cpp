@@ -3,6 +3,7 @@
 
 #include "Weapon.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "SimpleRPG/SimpleRPG.h"
 #include "SimpleRPG/Interfaces/CombatInterface.h"
 #include "SimpleRPG/Datas/WeaponData.h"
 
@@ -14,7 +15,7 @@ AWeapon::AWeapon()
 	WeaponBox = CreateDefaultSubobject<UBoxComponent>(TEXT("Weapon Collision"));
 	WeaponBox->SetupAttachment(GetRootComponent());
 	WeaponBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	WeaponBox->SetCollisionObjectType(ECC_WorldDynamic);
+	WeaponBox->SetCollisionObjectType(ECC_Projectile);
 	WeaponBox->SetCollisionResponseToAllChannels(ECR_Overlap);
 	WeaponBox->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 

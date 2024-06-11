@@ -85,7 +85,7 @@ void ARPGPlayerCharacter::BeginPlay()
 
 		// 修改：初始化ASC
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
-		InitBaseStatsAttributes();
+		// InitBaseStatsAttributes();
 	}
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{

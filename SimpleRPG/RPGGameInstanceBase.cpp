@@ -25,12 +25,12 @@ void URPGGameInstanceBase::Init()
 void URPGGameInstanceBase::LoadDataTables()
 {
 	//加载武器数据表
-	WeaponDataTable = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Weapon_All.DT_Weapon_All"));
-	TArray<FName> AllKeys = WeaponDataTable->GetRowNames();
+	DT_Weapons = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Weapon_All.DT_Weapon_All"));
+	TArray<FName> AllKeys = DT_Weapons->GetRowNames();
 	UE_LOG(LogTemp, Warning, TEXT("加载WeaponDataTable,包含武器：%d"), AllKeys.Num());
 	TMap<FName, FWeaponBaseModel> WeaponDataNew;
 	// 获取UDataTable的RowMap，这是一个包含所有行的TMap，其中键为RowName，值为void指针
-	const TMap<FName, uint8*>& DataTableRowMap = WeaponDataTable->GetRowMap();
+	const TMap<FName, uint8*>& DataTableRowMap = DT_Weapons->GetRowMap();
 	// 遍历RowMap并将每个行名和数据添加到我们的MyDataMap中
 	for (const auto& RowPair : DataTableRowMap)
 	{

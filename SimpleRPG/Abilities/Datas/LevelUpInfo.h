@@ -13,6 +13,13 @@ struct FRPGLevelUpInfo
 
 	UPROPERTY(EditDefaultsOnly)
 	int32 LevelUpRequirement = 0;
+
+	// 属性
+	UPROPERTY(EditDefaultsOnly)
+	int32 HPBase = 0;
+
+	UPROPERTY(EditDefaultsOnly)
+	int32 DMG = 0;
 };
 
 /**
