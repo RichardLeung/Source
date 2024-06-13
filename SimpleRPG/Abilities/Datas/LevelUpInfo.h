@@ -7,19 +7,33 @@
 #include "LevelUpInfo.generated.h"
 
 USTRUCT(BlueprintType)
-struct FRPGLevelUpInfo
+struct FRPGLevelUpAttribute
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly)
-	int32 LevelUpRequirement = 0;
-
-	// 属性
+	// 生命值
 	UPROPERTY(EditDefaultsOnly)
 	int32 HPBase = 0;
 
+	// 攻击
 	UPROPERTY(EditDefaultsOnly)
 	int32 DMG = 0;
+
+	// 防御
+	UPROPERTY(EditDefaultsOnly)
+	int32 DEF = 0;
+
+	// 速度
+	UPROPERTY(EditDefaultsOnly)
+	int32 SPD = 0;
+
+	// 暴击率
+	UPROPERTY(EditDefaultsOnly)
+	float CritRate = 0;
+
+	// 暴击伤害
+	UPROPERTY(EditDefaultsOnly)
+	float CritDMG = 0;
 };
 
 /**
@@ -32,7 +46,5 @@ class SIMPLERPG_API ULevelUpInfo : public UDataAsset
 
 public:
 	UPROPERTY(EditDefaultsOnly)
-	TArray<FRPGLevelUpInfo> LevelUpInformation;
-
-	int32 FindLevelForXP(int32 XP);
+	TArray<FRPGLevelUpAttribute> AttributesLevelUp;
 };

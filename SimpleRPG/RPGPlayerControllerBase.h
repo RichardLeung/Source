@@ -9,6 +9,9 @@
 #include "GameFramework/PlayerController.h"
 #include "RPGPlayerControllerBase.generated.h"
 
+class UInputAction;
+struct FInputActionValue;
+class UInputMappingContext;
 class UItemData;
 
 /**
@@ -24,6 +27,62 @@ public:
 	ARPGPlayerControllerBase();
 
 	virtual void BeginPlay() override;
+
+	virtual void SetupInputComponent() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
+	UInputMappingContext* InputMapping;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* MoveAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* LookUpAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* TurnAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* JumpAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* AttackAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* InteractAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* MenuAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* MapAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* InventoryAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* SkillAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* UltimateAction;
+
+	/**
+	 * Callbacks for input actions
+	 */
+	void Move(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Input", meta = (AllowPrivateAccess = "true"))
+	void Attack(const FInputActionValue& Value);
+
+	void Menu();
+
+	void Interact();
+
+	void Inventory();
+
+	void Skill();
+
+	void Ultimate();
 
 	/** Map of all items owned by this player, from definition to data */
 	// 由此玩家拥有的所有道具的映射，从定义到数据

@@ -5,6 +5,8 @@
 
 #include <functional>
 
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
 #include "RPGGameInstanceBase.h"
 #include "RPGSaveGame.h"
 #include "RPGTypes.h"
@@ -12,6 +14,7 @@
 #include "Datas/WeaponBaseModel.h"
 #include "Blueprint/UserWidget.h"
 #include "Characters/RPGCharacterBase.h"
+#include "Characters/RPGPlayerCharacter.h"
 #include "Widgets/GameHUD.h"
 
 // 初始化静态成员变量
@@ -25,6 +28,84 @@ ARPGPlayerControllerBase::ARPGPlayerControllerBase()
 void ARPGPlayerControllerBase::BeginPlay()
 {
 	Super::BeginPlay();
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
+			UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	{
+		// Clear out existing mapping, and add our mapping
+		Subsystem->ClearAllMappings();
+		Subsystem->AddMappingContext(InputMapping, 0);
+	}
+}
+
+void ARPGPlayerControllerBase::SetupInputComponent()
+{
+	Super::SetupInputComponent();
+	if (UEnhancedInputComponent* PEI = CastChecked<UEnhancedInputComponent>(InputComponent))
+	{
+		PEI->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Move);
+		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Menu);
+		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Attack);
+		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Interact);
+		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Inventory);
+		PEI->BindAction(SkillAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Skill);
+		PEI->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &ARPGPlayerControllerBase::Ultimate);
+	}
+}
+
+void ARPGPlayerControllerBase::Move(const FInputActionValue& Value)
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Move(Value);
+	}
+}
+
+void ARPGPlayerControllerBase::Attack(const FInputActionValue& Value)
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Attack(Value);
+	}
+}
+
+void ARPGPlayerControllerBase::Menu()
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Menu();
+	}
+}
+
+void ARPGPlayerControllerBase::Interact()
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Interact();
+	}
+}
+
+void ARPGPlayerControllerBase::Inventory()
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Inventory();
+	}
+}
+
+void ARPGPlayerControllerBase::Skill()
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Skill();
+	}
+}
+
+void ARPGPlayerControllerBase::Ultimate()
+{
+	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
+	{
+		ControlledCharacter->Ultimate();
+	}
 }
 
 bool ARPGPlayerControllerBase::GetInventoryItemData(UItemData* Item, FRPGItemData& ItemData) const

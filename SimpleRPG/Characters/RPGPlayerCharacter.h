@@ -80,42 +80,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TSubclassOf<UGameplayEffect> InitDefaultDMGTypeAttributesEffect;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
-	UInputMappingContext* InputMapping;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* MoveAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* LookUpAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* TurnAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* JumpAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* AttackAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* InteractAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* MenuAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* MapAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* InventoryAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* SkillAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
-	UInputAction* UltimateAction;
-
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

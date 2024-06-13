@@ -87,16 +87,6 @@ void ARPGPlayerCharacter::BeginPlay()
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 		// InitBaseStatsAttributes();
 	}
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<
-			UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			// Clear out existing mapping, and add our mapping
-			Subsystem->ClearAllMappings();
-			Subsystem->AddMappingContext(InputMapping, 0);
-		}
-	}
 	OnHealthChanged();
 }
 
@@ -133,21 +123,21 @@ bool ARPGPlayerCharacter::CanArm()
 	return !bArmWeapon;
 }
 
-// Called to bind functionality to input
-void ARPGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	if (UEnhancedInputComponent* PEI = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		PEI->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Move);
-		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Menu);
-		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Attack);
-		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Interact);
-		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Inventory);
-		PEI->BindAction(SkillAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Skill);
-		PEI->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Ultimate);
-	}
-}
+// // Called to bind functionality to input
+// void ARPGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+// {
+// 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+// 	if (UEnhancedInputComponent* PEI = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+// 	{
+// 		PEI->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Move);
+// 		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Menu);
+// 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Attack);
+// 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Interact);
+// 		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Inventory);
+// 		PEI->BindAction(SkillAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Skill);
+// 		PEI->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Ultimate);
+// 	}
+// }
 
 void ARPGPlayerCharacter::Move(const FInputActionValue& Value)
 {
