@@ -33,11 +33,14 @@ public:
 	UPROPERTY()
 	UDataTable* DT_Weapons;
 
+	UPROPERTY()
+	UDataTable* DT_LevelExp;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TMap<FName, FWeaponBaseModel> WeaponData;
 
 	UPROPERTY()
-	UDataTable* CharacterDataTable;
+	UDataTable* DT_Characters;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TMap<FName, FCharacterData> CharacterData;
