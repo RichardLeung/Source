@@ -85,16 +85,19 @@ void ARPGPlayerCharacter::BeginPlay()
 
 		// 修改：初始化ASC
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
-		// InitBaseStatsAttributes();
+		InitDefaultAttributes();
 	}
 	OnHealthChanged();
 }
 
-void ARPGPlayerCharacter::InitBaseStatsAttributes() const
+void ARPGPlayerCharacter::InitDefaultAttributes() const
 {
-	const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
-	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(DefaultBaseStatsAttributesEffect, 1, ContextHandle);
-	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+	if(GE_DefaultAttributes)
+	{
+		const FGameplayEffectContextHandle ContextHandle = GetAbilitySystemComponent()->MakeEffectContext();
+		const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GE_DefaultAttributes, 1, ContextHandle);
+		GetAbilitySystemComponent()->ApplyGameplayEffectSpecToTarget(*SpecHandle.Data.Get(), GetAbilitySystemComponent());
+	}
 }
 
 UAbilitySystemComponent* ARPGPlayerCharacter::GetAbilitySystemComponent() const
@@ -122,22 +125,6 @@ bool ARPGPlayerCharacter::CanArm()
 {
 	return !bArmWeapon;
 }
-
-// // Called to bind functionality to input
-// void ARPGPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-// {
-// 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-// 	if (UEnhancedInputComponent* PEI = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-// 	{
-// 		PEI->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Move);
-// 		PEI->BindAction(MenuAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Menu);
-// 		PEI->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Attack);
-// 		PEI->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Interact);
-// 		PEI->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Inventory);
-// 		PEI->BindAction(SkillAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Skill);
-// 		PEI->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &ARPGPlayerCharacter::Ultimate);
-// 	}
-// }
 
 void ARPGPlayerCharacter::Move(const FInputActionValue& Value)
 {

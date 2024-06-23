@@ -3,21 +3,24 @@
 
 #include "ExecCalc_InitCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "SimpleRPG/RPGGameInstanceBase.h"
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
+#include "SimpleRPG/Characters/RPGCharacterBase.h"
 
 struct RPGInitCharacterStatics
 {
+	DECLARE_ATTRIBUTE_CAPTUREDEF(HPBase);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(HPCurrent);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(DEF);
 	DECLARE_ATTRIBUTE_CAPTUREDEF(ATK);
-	DECLARE_ATTRIBUTE_CAPTUREDEF(SPD);
-	
 	
 	RPGInitCharacterStatics()
 	{
-		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, HPCurrent, Source, true)
-		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, DEF, Source, true)
-		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, ATK, Source, true)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, HPBase, Source, false)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, HPCurrent, Source, false)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, DEF, Source, false)
+		DEFINE_ATTRIBUTE_CAPTUREDEF(URPGAttributeSet, ATK, Source, false)
 	}
 };
 
@@ -29,6 +32,8 @@ static const RPGInitCharacterStatics& InitCharacterStatics()
 
 UExecCalc_InitCharacter::UExecCalc_InitCharacter()
 {
+	RelevantAttributesToCapture.Add(InitCharacterStatics().HPBaseDef);
+	RelevantAttributesToCapture.Add(InitCharacterStatics().HPCurrentDef);
 	RelevantAttributesToCapture.Add(InitCharacterStatics().ATKDef);
 	RelevantAttributesToCapture.Add(InitCharacterStatics().DEFDef);
 }
@@ -36,6 +41,7 @@ UExecCalc_InitCharacter::UExecCalc_InitCharacter()
 void UExecCalc_InitCharacter::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                               FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
+	UE_LOG(LogTemp, Warning, TEXT("开始角色初始化"));
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
@@ -49,13 +55,29 @@ void UExecCalc_InitCharacter::Execute_Implementation(const FGameplayEffectCustom
 	FAggregatorEvaluateParameters EvaluationParameters;
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
-
-	float ATK = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().ATKDef, EvaluationParameters, ATK);
-	float DEF = 0.f;
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().DEFDef, EvaluationParameters, DEF);
-	float Damage = FMath::Max(ATK - DEF, 0.f);
-	const FGameplayModifierEvaluatedData EvaluatedData(DamageStatics().HPCurrentProperty, EGameplayModOp::Additive, -Damage);
+	// ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(RPGInitCharacterStatics().ATKDef, EvaluationParameters, Level);
+	const ARPGCharacterBase* SourceCharacter = Cast<ARPGCharacterBase>(SourceActor);
+	if (!SourceCharacter)
+	{
+		return;
+	}
+	UDataTable* DT_AttributeInfo = SourceCharacter->DT_AttributeInfo;
+	if (!DT_AttributeInfo)
+	{
+		return;
+	}
+	FCharacterLevelAttributeInfo* AttributeInfoData = DT_AttributeInfo->FindRow<FCharacterLevelAttributeInfo>(FName(*FString::FromInt(SourceCharacter->Level+100*SourceCharacter->BreakLevel)), FString(""));
+	if (!AttributeInfoData)
+	{
+		return;
+	}
+	const FGameplayModifierEvaluatedData EvaluatedData(RPGInitCharacterStatics().HPCurrentProperty, EGameplayModOp::Override, AttributeInfoData->HPBase);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData);
-	
+	const FGameplayModifierEvaluatedData EvaluatedData2(RPGInitCharacterStatics().HPBaseProperty, EGameplayModOp::Override, AttributeInfoData->HPBase);
+	OutExecutionOutput.AddOutputModifier(EvaluatedData2);
+	const FGameplayModifierEvaluatedData EvaluatedData3(RPGInitCharacterStatics().DEFProperty, EGameplayModOp::Override, AttributeInfoData->DEF);
+	OutExecutionOutput.AddOutputModifier(EvaluatedData3);
+	const FGameplayModifierEvaluatedData EvaluatedData4(RPGInitCharacterStatics().ATKProperty, EGameplayModOp::Override, AttributeInfoData->ATK);
+	OutExecutionOutput.AddOutputModifier(EvaluatedData4);
+	UE_LOG(LogTemp, Warning, TEXT("结束角色初始化"));
 }

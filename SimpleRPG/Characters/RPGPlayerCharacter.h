@@ -70,15 +70,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
-	TSubclassOf<UGameplayEffect> DefaultBaseStatsAttributesEffect;
+	TSubclassOf<UGameplayEffect> GE_DefaultAttributes;
 
-	void InitBaseStatsAttributes() const;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
-	TSubclassOf<UGameplayEffect> InitDefaultAdvancedStatsAttributesEffect;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
-	TSubclassOf<UGameplayEffect> InitDefaultDMGTypeAttributesEffect;
+	void InitDefaultAttributes() const;
 
 public:
 	// Called every frame
