@@ -30,20 +30,23 @@ public:
 	
 	void LoadDataTables();
 
-	UPROPERTY()
-	UDataTable* DT_Weapons;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "基础数据表")
+	TObjectPtr<UDataTable> DT_Characters;
 
-	UPROPERTY()
-	UDataTable* DT_LevelExp;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "基础数据表")
+	TObjectPtr<UDataTable> DT_Weapons;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TMap<FName, FWeaponBaseModel> WeaponData;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "基础数据表")
+	TObjectPtr<UDataTable> DT_LevelExp;
 
-	UPROPERTY()
-	UDataTable* DT_Characters;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "基础数据表")
 	TMap<FName, FCharacterData> CharacterData;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "基础数据表")
+	TMap<FName, FWeaponBaseModel> WeaponData;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "基础数据表")
+	TMap<FName, FCharacterLevelAttributeInfo> LevelExpData;
 
 	/** The slot name used for saving */
 	// 用于保存的插槽名称

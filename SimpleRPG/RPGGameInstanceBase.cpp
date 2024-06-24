@@ -25,7 +25,6 @@ void URPGGameInstanceBase::Init()
 void URPGGameInstanceBase::LoadDataTables()
 {
 	// 加载武器数据表
-	DT_Weapons = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Weapon_All.DT_Weapon_All"));
 	TArray<FName> AllKeys = DT_Weapons->GetRowNames();
 	UE_LOG(LogTemp, Warning, TEXT("加载WeaponDataTable,包含武器：%d"), AllKeys.Num());
 	TMap<FName, FWeaponBaseModel> WeaponDataNew;
@@ -36,17 +35,15 @@ void URPGGameInstanceBase::LoadDataTables()
 	{
 		const FName& RowName = RowPair.Key;
 		const FWeaponBaseModel* RowData = reinterpret_cast<const FWeaponBaseModel*>(RowPair.Value);
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *RowData->Name.ToString());
 		WeaponDataNew.Add(RowName, *RowData);
 	}
 	WeaponData = WeaponDataNew;
 
 	// 加载角色数据表
-	DT_Characters = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_Character.DT_Character"));
 	TArray<FName> AllCharacterKeys = DT_Characters->GetRowNames();
 	UE_LOG(LogTemp, Warning, TEXT("加载CharacterDataTable,包含角色：%d"), AllCharacterKeys.Num());
 	TMap<FName, FCharacterData> CharacterDataNew;
-	TMap<FName, FCharacterLevelAttributeInfo> AttributeSetDataNew;
+	TMap<FName, TMap<FName, FCharacterLevelAttributeInfo>> AttributeSetDataNew;
 	// 获取UDataTable的RowMap，这是一个包含所有行的TMap，其中键为RowName，值为void指针
 	const TMap<FName, uint8*>& Map_CharacterDataTable = DT_Characters->GetRowMap();
 	// 遍历RowMap并将每个行名和数据添加到我们的MyDataMap中
@@ -54,24 +51,24 @@ void URPGGameInstanceBase::LoadDataTables()
 	{
 		const FName& RowName = RowPair_Character.Key;
 		const FCharacterData* RowData = reinterpret_cast<const FCharacterData*>(RowPair_Character.Value);
-		if(RowData->DT_LevelUpAttributeSet)
-		{
-			// 加载角色属性数据表
-			const UDataTable* DT_AttributeSet = LoadObject<UDataTable>(nullptr, *RowData->DT_LevelUpAttributeSet->GetPathName());
-			TArray<FName> AllAttributeSetKeys = DT_AttributeSet->GetRowNames();
-			const TMap<FName, uint8*>& Map_AttributeDataTable = DT_AttributeSet->GetRowMap();
-			
-		}
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *RowData->Name.ToString());
 		CharacterDataNew.Add(RowName, *RowData);
 	}
 	CharacterData = CharacterDataNew;
 	
-
 	// 加载升级经验数据表
-	DT_LevelExp = LoadObject<UDataTable>(nullptr, TEXT("/Game/_Game/DataTables/DT_LevelExp.DT_LevelExp"));
 	TArray<FName> AllLevelExpKeys = DT_LevelExp->GetRowNames();
 	UE_LOG(LogTemp, Warning, TEXT("加载LevelExpDataTable,包含等级：%d"), AllLevelExpKeys.Num());
+	TMap<FName, FCharacterLevelAttributeInfo> LevelExpDataNew;
+	// 获取UDataTable的RowMap，这是一个包含所有行的TMap，其中键为RowName，值为void指针
+	const TMap<FName, uint8*>& Map_LevelExpDataTable = DT_LevelExp->GetRowMap();
+	// 遍历RowMap并将每个行名和数据添加到我们的MyDataMap中
+	for (const auto& RowPair_LevelExp : Map_LevelExpDataTable)
+	{
+		const FName& RowName = RowPair_LevelExp.Key;
+		const FCharacterLevelAttributeInfo* RowData = reinterpret_cast<const FCharacterLevelAttributeInfo*>(RowPair_LevelExp.Value);
+		LevelExpDataNew.Add(RowName, *RowData);
+	}
+	LevelExpData = LevelExpDataNew;
 }
 
 URPGSaveGame* URPGGameInstanceBase::GetCurrentSaveGame()

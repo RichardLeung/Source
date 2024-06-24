@@ -19,12 +19,6 @@ class SIMPLERPG_API ARPGGameModeBase : public AGameModeBase
 public:
 	ARPGGameModeBase();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "角色数据表")
-	TObjectPtr<UDataTable> DataTableCharacter;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "升级经验数据表")
-	TObjectPtr<UDataTable> DataTableLevelExp;
-
 	virtual void PawnKilled(APawn* PawnKilled);
 
 	virtual void EndGame(bool bIsPlayerWinner);

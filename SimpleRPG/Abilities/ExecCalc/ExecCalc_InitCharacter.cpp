@@ -41,7 +41,6 @@ UExecCalc_InitCharacter::UExecCalc_InitCharacter()
 void UExecCalc_InitCharacter::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
                                               FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
-	UE_LOG(LogTemp, Warning, TEXT("开始角色初始化"));
 	const UAbilitySystemComponent* SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent* TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
@@ -61,11 +60,20 @@ void UExecCalc_InitCharacter::Execute_Implementation(const FGameplayEffectCustom
 	{
 		return;
 	}
-	UDataTable* DT_AttributeInfo = SourceCharacter->DT_AttributeInfo;
-	if (!DT_AttributeInfo)
+	UE_LOG(LogTemp, Warning, TEXT("开始 %s 的属性初始化"), *SourceCharacter->CharacterName.ToString());
+	// 获取GameInstance
+	UWorld* World = GEngine->GetWorldFromContextObject(SourceActor, EGetWorldErrorMode::LogAndReturnNull);
+	if (!World)
 	{
 		return;
 	}
+	URPGGameInstanceBase* GameInstance = Cast<URPGGameInstanceBase>(UGameplayStatics::GetGameInstance(World));
+	if (!GameInstance)
+	{
+		return;
+	}
+	FCharacterData* CharacterData = GameInstance->CharacterData.Find(SourceCharacter->CharacterName);
+	UDataTable* DT_AttributeInfo = CharacterData->DT_LevelUpAttributeSet.Get();
 	FCharacterLevelAttributeInfo* AttributeInfoData = DT_AttributeInfo->FindRow<FCharacterLevelAttributeInfo>(FName(*FString::FromInt(SourceCharacter->Level+100*SourceCharacter->BreakLevel)), FString(""));
 	if (!AttributeInfoData)
 	{
@@ -79,5 +87,5 @@ void UExecCalc_InitCharacter::Execute_Implementation(const FGameplayEffectCustom
 	OutExecutionOutput.AddOutputModifier(EvaluatedData3);
 	const FGameplayModifierEvaluatedData EvaluatedData4(RPGInitCharacterStatics().ATKProperty, EGameplayModOp::Override, AttributeInfoData->ATK);
 	OutExecutionOutput.AddOutputModifier(EvaluatedData4);
-	UE_LOG(LogTemp, Warning, TEXT("结束角色初始化"));
+	UE_LOG(LogTemp, Warning, TEXT("结束 %s 的属性初始化"), *SourceCharacter->CharacterName.ToString());
 }
