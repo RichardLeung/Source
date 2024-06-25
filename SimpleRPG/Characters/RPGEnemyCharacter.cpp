@@ -3,12 +3,15 @@
 
 #include "RPGEnemyCharacter.h"
 #include "RPGPlayerCharacter.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SimpleRPG/SimpleRPG.h"
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
+#include "SimpleRPG/AI/RPGAIController.h"
 
 ARPGEnemyCharacter::ARPGEnemyCharacter()
 {
@@ -72,6 +75,17 @@ void ARPGEnemyCharacter::Tick(float DeltaTime)
 void ARPGEnemyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ARPGEnemyCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	RPGAIController = Cast<ARPGAIController>(NewController);
+	if (RPGAIController && BehaviorTree)
+	{
+		RPGAIController->GetBlackboardComponent()->InitializeBlackboard(*BehaviorTree->BlackboardAsset);
+		RPGAIController->RunBehaviorTree(BehaviorTree);
+	}
 }
 
 void ARPGEnemyCharacter::DirectionalHit(const FVector& ImpactPoint)

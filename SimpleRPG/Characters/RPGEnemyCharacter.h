@@ -9,6 +9,8 @@
 
 class UAnimMontage;
 class UWidgetComponent;
+class UBehaviorTree;
+class ARPGAIController;
 
 UCLASS()
 class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase
@@ -21,6 +23,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual void PossessedBy(AController* NewController) override;
 
 	void DirectionalHit(const FVector& ImpactPoint);
 
@@ -55,6 +59,12 @@ protected:
 	 *  Play Animation Montage
 	 */
 	void PlayHitMontage(const FName& SectionName);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=AI)
+	TObjectPtr<UBehaviorTree> BehaviorTree;
+
+	UPROPERTY()
+	TObjectPtr<ARPGAIController> RPGAIController;
 
 public:
 	/**

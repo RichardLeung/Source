@@ -14,7 +14,7 @@ public class SimpleRPG : ModuleRules
 			"SlateCore",
 			"EnhancedInput",
 			"GameplayAbilities", "GameplayTags", "GameplayTasks", "Core", "CoreUObject", "Engine", "InputCore", "UMG",
-			"HairStrandsCore", "Niagara"
+			"HairStrandsCore", "Niagara", "AIModule"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { });
