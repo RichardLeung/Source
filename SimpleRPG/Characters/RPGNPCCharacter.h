@@ -22,9 +22,6 @@ public:
 	// Sets default values for this character's properties
 	ARPGNPCCharacter();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NPC")
-	FDataTableRowHandle CharacterDataTableRowHandle;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "NPC")
 	FCharacterData CharacterData;
 

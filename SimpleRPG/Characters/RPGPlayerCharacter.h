@@ -241,4 +241,6 @@ public:
 
 
 	virtual FVector GetCombatProjectileLocation() override;
+
+	
 };

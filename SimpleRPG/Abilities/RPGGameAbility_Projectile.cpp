@@ -26,6 +26,10 @@ void URPGGameAbility_Projectile::SpawnProjectile()
 		FVector CombatSocketLocation = CombatInterface->GetCombatProjectileLocation();
 		FTransform SpawnTransform;
 		SpawnTransform.SetLocation(CombatSocketLocation);
+		// 获取角色的前方向量
+		FVector ForwardVector = GetAvatarActorFromActorInfo()->GetActorForwardVector();
+		// 设置角色的前方向量
+		SpawnTransform.SetRotation(ForwardVector.ToOrientationQuat());
 
 		ARPGProjectile* Projectile = GetWorld()->SpawnActorDeferred<ARPGProjectile>(
 			ProjectileClass, SpawnTransform,
