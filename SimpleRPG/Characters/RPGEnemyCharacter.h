@@ -40,7 +40,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void K2_OnDie();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities) 
 	UAbilitySystemComponent* AbilitySystemComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
@@ -59,6 +59,9 @@ protected:
 	 *  Play Animation Montage
 	 */
 	void PlayHitMontage(const FName& SectionName);
+
+	
+	void RefreshMovement() const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=AI)
 	TObjectPtr<UBehaviorTree> BehaviorTree;

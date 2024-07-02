@@ -66,12 +66,21 @@ void ARPGEnemyCharacter::BeginPlay()
 
 void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 {
+	GetCharacterMovement()->DisableMovement();
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance && HitAnimMontage)
 	{
 		AnimInstance->Montage_Play(HitAnimMontage);
 		AnimInstance->Montage_JumpToSection(SectionName, HitAnimMontage);
 	}
+	// 设置定时器在动画结束时重新启用移动
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ARPGEnemyCharacter::RefreshMovement, HitAnimMontage->GetPlayLength(), false);
+}
+
+void ARPGEnemyCharacter::RefreshMovement() const
+{
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 
 void ARPGEnemyCharacter::Tick(float DeltaTime)
