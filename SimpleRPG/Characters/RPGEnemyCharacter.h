@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "AbilitySystemInterface.h"
 #include "RPGCharacterBase.h"
 #include "RPGEnemyCharacter.generated.h"
 
@@ -13,7 +14,7 @@ class UBehaviorTree;
 class ARPGAIController;
 
 UCLASS()
-class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase
+class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
@@ -43,6 +44,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities) 
 	UAbilitySystemComponent* AbilitySystemComponent;
 
+	// 修改：实现接口方法
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Abilities)
 	TObjectPtr<UWidgetComponent> StatusBar;
 
@@ -63,6 +67,8 @@ protected:
 	
 	void RefreshMovement() const;
 
+	void DistortActor();
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=AI)
 	TObjectPtr<UBehaviorTree> BehaviorTree;
 
@@ -75,6 +81,9 @@ public:
 	 */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* HitAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
+	UAnimMontage* DeathAnimMontage;
 
 private:
 	UPROPERTY()

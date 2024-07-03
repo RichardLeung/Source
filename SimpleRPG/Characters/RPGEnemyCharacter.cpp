@@ -43,8 +43,6 @@ ARPGEnemyCharacter::ARPGEnemyCharacter()
 void ARPGEnemyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerCharacter = Cast<ARPGPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-
 	if (AbilitySystemComponent)
 	{
 		// 修改：给ASC赋予技能
@@ -62,12 +60,24 @@ void ARPGEnemyCharacter::BeginPlay()
 		// 修改：初始化ASC
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
+	PlayerCharacter = Cast<ARPGPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 }
 
 void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 {
 	GetCharacterMovement()->DisableMovement();
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if(AttributeSet->HPCurrent.GetCurrentValue() == 0.f)
+	{
+		if (AnimInstance && DeathAnimMontage)
+		{
+			AnimInstance->Montage_Play(DeathAnimMontage);
+			// 设置定时器在动画结束时重新启用移动
+			FTimerHandle TimerHandle;
+			GetWorldTimerManager().SetTimer(TimerHandle, this, &ARPGEnemyCharacter::DistortActor, DeathAnimMontage->GetPlayLength(), false);
+		}
+		return;
+	}
 	if (AnimInstance && HitAnimMontage)
 	{
 		AnimInstance->Montage_Play(HitAnimMontage);
@@ -81,6 +91,11 @@ void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 void ARPGEnemyCharacter::RefreshMovement() const
 {
 	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+}
+
+void ARPGEnemyCharacter::DistortActor()
+{
+	Destroy();
 }
 
 void ARPGEnemyCharacter::Tick(float DeltaTime)
@@ -148,4 +163,9 @@ void ARPGEnemyCharacter::OnHealthChanged()
 void ARPGEnemyCharacter::OnDie()
 {
 	K2_OnDie();
+}
+
+UAbilitySystemComponent* ARPGEnemyCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystemComponent;
 }
