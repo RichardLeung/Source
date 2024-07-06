@@ -11,6 +11,17 @@
 class USphereComponent;
 class UProjectileMovementComponent;
 
+//Projectile枚举类型
+UENUM(BlueprintType)
+enum class EProjectileType : uint8
+{
+	//直线
+	Line UMETA(DisplayName = "Line"),
+	//法阵
+	Arc UMETA(DisplayName = "Arc"),
+};
+	
+
 UCLASS()
 class SIMPLERPG_API ARPGProjectile : public AActor
 {
@@ -18,6 +29,9 @@ class SIMPLERPG_API ARPGProjectile : public AActor
 
 public:
 	ARPGProjectile();
+
+	UPROPERTY(EditAnywhere)
+	EProjectileType ProjectileType = EProjectileType::Line;
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UProjectileMovementComponent> ProjectileMovement;

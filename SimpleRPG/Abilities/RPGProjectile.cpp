@@ -32,8 +32,16 @@ ARPGProjectile::ARPGProjectile()
 	Sphere->SetupAttachment(RootComponent);
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
-	ProjectileMovement->InitialSpeed = 550.f;
-	ProjectileMovement->MaxSpeed = 550.f;
+	if(ProjectileType == EProjectileType::Line)
+	{
+		ProjectileMovement->InitialSpeed = 550.f;
+		ProjectileMovement->MaxSpeed = 550.f;
+	}
+	else if(ProjectileType == EProjectileType::Arc)
+	{
+		ProjectileMovement->InitialSpeed = 0.f;
+		ProjectileMovement->MaxSpeed = 0.f;
+	}
 	ProjectileMovement->ProjectileGravityScale = 0.f;
 }
 
@@ -96,7 +104,10 @@ void ARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor
 		{
 			TargetCharacter->GetHit(SweepResult.ImpactPoint);
 		}
-		Destroy();
+		if(ProjectileType == EProjectileType::Line)
+		{
+			Destroy();
+		}
 	}
 	else
 	{
