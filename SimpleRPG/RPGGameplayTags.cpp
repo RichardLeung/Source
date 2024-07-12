@@ -8,6 +8,9 @@ FRPGGameplayTags FRPGGameplayTags::GameplayTags;
 
 void FRPGGameplayTags::InitializeNativeGameplayTags()
 {
+	/**
+	 * Attributes
+	 */
 	GameplayTags.Attributes_BaseStats_HPCurrent = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.HPCurrent"),
 		FString("基础属性 - 当前生命值"));
@@ -86,4 +89,20 @@ void FRPGGameplayTags::InitializeNativeGameplayTags()
 	GameplayTags.Attributes_IncomeDamage = UGameplayTagsManager::Get().AddNativeGameplayTag(
 		FName("Attributes.IncomeDamage"),
 		FString("收到伤害"));
+
+	/**
+	 * Effects
+	 */
+
+	GameplayTags.Effects_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Effects.HitReact"),
+		FString("受击反应"));
+
+	/**
+	 * Abilities
+	 */
+
+	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Attack"),
+		FString("攻击"));
 }

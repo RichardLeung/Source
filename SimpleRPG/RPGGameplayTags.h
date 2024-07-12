@@ -42,6 +42,10 @@ public:
 
 	FGameplayTag Attributes_IncomeDamage;
 
+	FGameplayTag Abilities_Attack;
+	
+	FGameplayTag Effects_HitReact;
+
 protected:
 	
 private:
