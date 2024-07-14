@@ -35,6 +35,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "角色|基础属性")
 	UDataTable* DT_AttributeInfo;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "角色|基础属性")
+	UDataAsset* DA_AnimationData;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
