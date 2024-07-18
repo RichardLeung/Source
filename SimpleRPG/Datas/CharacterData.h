@@ -24,9 +24,6 @@ struct FCharacterData : public FTableRowBase
 	// 角色各个等级的基础属性
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "角色|详细信息")
 	TSoftObjectPtr<UDataTable> DT_LevelUpAttributeSet;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "角色|详细信息")
-	TSoftObjectPtr<UDataTable> DA_CharacterAnimationData;
 };
 
 USTRUCT(BlueprintType)

@@ -56,6 +56,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Attributes")
 	class URPGAttributeSet* AttributeSet;
 
+	
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -84,6 +86,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* DeathAnimMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
+	UAnimMontage* AttackAnimMontage;
 
 private:
 	UPROPERTY()
