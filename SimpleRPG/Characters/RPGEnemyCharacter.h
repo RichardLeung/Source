@@ -66,7 +66,11 @@ protected:
 	 */
 	void PlayHitMontage(const FName& SectionName);
 
-	
+	// 暂停移动
+	UFUNCTION(BlueprintCallable)
+	void StopMovement() const;
+
+	UFUNCTION(BlueprintCallable)
 	void RefreshMovement() const;
 
 	void DistortActor();

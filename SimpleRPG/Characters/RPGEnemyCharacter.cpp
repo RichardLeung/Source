@@ -66,7 +66,7 @@ void ARPGEnemyCharacter::BeginPlay()
 
 void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 {
-	GetCharacterMovement()->DisableMovement();
+	StopMovement();
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if(AttributeSet->HPCurrent.GetCurrentValue() == 0.f)
 	{
@@ -89,9 +89,22 @@ void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ARPGEnemyCharacter::RefreshMovement, HitAnimMontage->GetPlayLength(), false);
 }
 
+void ARPGEnemyCharacter::StopMovement() const
+{
+	// 停止移动
+	GetCharacterMovement()->DisableMovement();
+	// 设置黑板值
+	UBlackboardComponent* BlackboardComponent = RPGAIController->GetBlackboardComponent();
+	BlackboardComponent->SetValueAsEnum(FName("EnemyState"), 2);
+}
+
 void ARPGEnemyCharacter::RefreshMovement() const
 {
-	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	// 恢复移动
+	GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Walking);
+	// 设置黑板值
+	UBlackboardComponent* BlackboardComponent = RPGAIController->GetBlackboardComponent();
+	BlackboardComponent->SetValueAsEnum(FName("EnemyState"), 0);
 }
 
 void ARPGEnemyCharacter::DistortActor()

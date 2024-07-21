@@ -41,9 +41,8 @@ void URPGGameAbility_Projectile::SpawnProjectile()
 			GetAvatarActorFromActorInfo());
 		const FGameplayEffectSpecHandle SpecHandle = SourceASC->MakeOutgoingSpec(
 			GameplayEffectClass, GetAbilityLevel(), SourceASC->MakeEffectContext());
-
+		// 设置伤害效果
 		Projectile->DamageEffectSpecHandle = SpecHandle;
-
 		Projectile->FinishSpawning(SpawnTransform);
 	}
 }

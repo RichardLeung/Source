@@ -85,10 +85,6 @@ void ARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator);
 	}
-	if (ImpactEffect)
-	{
-		UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactEffect, GetActorLocation());
-	}
 	if (LoopingSound)
 	{
 		LoopingSoundComponent->Stop();
@@ -103,6 +99,10 @@ void ARPGProjectile::OnSphereOverlap(UPrimitiveComponent* OverlappedComp, AActor
 		if (TargetCharacter)
 		{
 			TargetCharacter->GetHit(SweepResult.ImpactPoint);
+			if (ImpactEffect)
+			{
+				UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), ImpactEffect, TargetCharacter->GetActorLocation());
+			}
 		}
 		if(ProjectileType == EProjectileType::Line)
 		{
