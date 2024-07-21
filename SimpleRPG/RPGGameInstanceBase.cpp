@@ -111,6 +111,15 @@ bool URPGGameInstanceBase::LoadGameFromSlot(const FString& SlotName, int32 UserI
 	return false;
 }
 
+FWeaponBaseModel URPGGameInstanceBase::GetWeaponData(FName WeaponName)
+{
+	if(WeaponData.Contains(WeaponName))
+	{
+		return WeaponData[WeaponName];
+	}
+	return FWeaponBaseModel();
+}
+
 void URPGGameInstanceBase::HandleAsyncSave(const FString& SlotName, const int32 UserIndex, bool bSuccess)
 {
 	ensure(bCurrentlySaving);

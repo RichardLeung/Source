@@ -102,7 +102,19 @@ void FRPGGameplayTags::InitializeNativeGameplayTags()
 	 * Abilities
 	 */
 
-	GameplayTags.Abilities_Attack = UGameplayTagsManager::Get().AddNativeGameplayTag(
-		FName("Abilities.Attack"),
-		FString("攻击"));
+	GameplayTags.Abilities_Attack_Melee = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Attack.Melee"),
+		FString("近战攻击"));
+
+	GameplayTags.Abilities_Attack_Range = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.Attack.Range"),
+		FString("远程攻击"));
+
+	GameplayTags.Abilities_EnemyDeath = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.EnemyDeath"),
+		FString("敌人死亡"));
+
+	GameplayTags.Abilities_HitReact = UGameplayTagsManager::Get().AddNativeGameplayTag(
+		FName("Abilities.HitReact"),
+		FString("受击反应"));
 }

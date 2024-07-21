@@ -10,9 +10,13 @@
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "SimpleRPG/RPGGameInstanceBase.h"
+#include "SimpleRPG/RPGPlayerControllerBase.h"
 #include "SimpleRPG/SimpleRPG.h"
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
 #include "SimpleRPG/AI/RPGAIController.h"
+#include "SimpleRPG/Datas/WeaponData.h"
+#include "SimpleRPG/Items/Weapon.h"
 
 ARPGEnemyCharacter::ARPGEnemyCharacter()
 {
@@ -62,6 +66,21 @@ void ARPGEnemyCharacter::BeginPlay()
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
 	PlayerCharacter = Cast<ARPGPlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	if (WeaponName != NAME_None)
+	{
+		// 获取GameInstance
+		URPGGameInstanceBase* GameInstance = Cast<URPGGameInstanceBase>(GetGameInstance());
+		if (GameInstance)
+		{
+			// 获取武器数据
+			FWeaponBaseModel WeaponModel = GameInstance->GetWeaponData(WeaponName);
+			UWeaponData* WeaponData = Cast<UWeaponData>(WeaponModel.WeaponData.LoadSynchronous());
+			if (WeaponData)
+			{
+				EquipWeapon(WeaponData);
+			}
+		}
+	}
 }
 
 void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
@@ -176,10 +195,48 @@ void ARPGEnemyCharacter::OnHealthChanged()
 
 void ARPGEnemyCharacter::OnDie()
 {
+	// 设置黑板值
+	UBlackboardComponent* BlackboardComponent = RPGAIController->GetBlackboardComponent();
+	BlackboardComponent->SetValueAsEnum(FName("EnemyState"), 3);
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	SetLifeSpan(LifeSpan);
 	K2_OnDie();
 }
 
 UAbilitySystemComponent* ARPGEnemyCharacter::GetAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
+}
+
+void ARPGEnemyCharacter::EquipWeapon(UWeaponData* WeaponData)
+{
+	if (WeaponData)
+	{
+		UWorld* World = GetWorld();
+		if (World)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			FVector SpawnLocation = FVector::ZeroVector;
+			FRotator SpawnRotation = FRotator::ZeroRotator;
+			AWeapon* NewWeapon = World->SpawnActor<AWeapon>(AWeapon::StaticClass(), SpawnLocation, SpawnRotation,
+			SpawnParams);
+			if (NewWeapon)
+			{
+				// Initialize the weapon with the provided ItemData.
+				// 使用提供的ItemData初始化武器
+				NewWeapon->InitWeapon(WeaponData);
+				// Call the Equip method to attach the weapon to the player character.
+				// 调用装备方法将武器附加到玩家角色
+				NewWeapon->Equip(GetMesh(), FName(TEXT("RightHandSocket")));
+				// Set the EquippedWeapon variable.
+				if (CurrentWeapon)
+				{
+					CurrentWeapon->Destroy();
+				}
+				// 设置装备武器变量
+				CurrentWeapon = NewWeapon;
+			}
+		}
+	}
 }

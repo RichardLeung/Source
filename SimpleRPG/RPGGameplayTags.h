@@ -42,7 +42,13 @@ public:
 
 	FGameplayTag Attributes_IncomeDamage;
 
-	FGameplayTag Abilities_Attack;
+	FGameplayTag Abilities_Attack_Melee;
+
+	FGameplayTag Abilities_Attack_Range;
+
+	FGameplayTag Abilities_EnemyDeath;
+
+	FGameplayTag Abilities_HitReact;
 	
 	FGameplayTag Effects_HitReact;
 

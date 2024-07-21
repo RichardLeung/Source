@@ -10,6 +10,7 @@
 #include "Datas/WeaponBaseModel.h"
 #include "RPGGameInstanceBase.generated.h"
 
+class UWeaponData;
 class URPGItem;
 class URPGSaveGame;
 class UDataTable;
@@ -79,6 +80,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "SaveGame")
 	bool LoadGameFromSlot(const FString& SlotName, int32 UserIndex);
+
+	UFUNCTION()
+	FWeaponBaseModel GetWeaponData(FName WeaponName);
 
 protected:
 	/** The current save game object */

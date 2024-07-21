@@ -12,6 +12,8 @@ class UAnimMontage;
 class UWidgetComponent;
 class UBehaviorTree;
 class ARPGAIController;
+class AWeapon;
+class UWeaponData;
 
 UCLASS()
 class SIMPLERPG_API ARPGEnemyCharacter : public ARPGCharacterBase, public IAbilitySystemInterface
@@ -56,8 +58,18 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Attributes")
 	class URPGAttributeSet* AttributeSet;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Combat)
+	float LifeSpan = 6.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Weapon)
+	AWeapon* CurrentWeapon;
+
+	UFUNCTION(BlueprintCallable)
+	void EquipWeapon(UWeaponData* ItemData);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Weapon)
+	FName WeaponName;
+	
 protected:
 	virtual void BeginPlay() override;
 
