@@ -106,7 +106,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* AttackAnimMontage;
 
-private:
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class ARPGPlayerCharacter* PlayerCharacter;
+	
 };
