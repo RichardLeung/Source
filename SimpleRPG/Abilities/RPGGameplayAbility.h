@@ -18,4 +18,11 @@ public:
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo,
 	                             const FGameplayAbilityActivationInfo ActivationInfo,
 	                             const FGameplayEventData* TriggerEventData) override;
+	
+	// 暂停移动
+	UFUNCTION(BlueprintCallable)
+	void StopMovement() const;
+
+	UFUNCTION(BlueprintCallable)
+	void RefreshMovement() const;
 };

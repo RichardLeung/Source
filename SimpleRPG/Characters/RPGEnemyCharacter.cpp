@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "SimpleRPG/RPGGameInstanceBase.h"
+#include "SimpleRPG/RPGGameplayTags.h"
 #include "SimpleRPG/RPGPlayerControllerBase.h"
 #include "SimpleRPG/SimpleRPG.h"
 #include "SimpleRPG/Abilities/RPGAttributeSet.h"
@@ -83,29 +84,46 @@ void ARPGEnemyCharacter::BeginPlay()
 	}
 }
 
+// 假设这个函数在您的角色类中
+void ARPGEnemyCharacter::ActivateSpecificAbility(FGameplayTag AbilityTag)
+{
+	// 获取 AbilitySystemComponent
+	UAbilitySystemComponent* ASC = GetAbilitySystemComponent();
+	if (!ASC) return;
+
+	// 遍历 MyAbilities 数组
+	for (TSubclassOf<UGameplayAbility> AbilityClass : MyAbilities)
+	{
+		// 获取默认对象
+		if (UGameplayAbility* AbilityCDO = AbilityClass.GetDefaultObject())
+		{
+			// 检查这个能力是否匹配我们要找的标签
+			if (AbilityCDO->AbilityTags.HasTag(AbilityTag))
+			{
+				// 找到匹配的能力，现在激活它
+				FGameplayAbilitySpecHandle Handle = ASC->GiveAbility(
+					FGameplayAbilitySpec(AbilityClass, 1, INDEX_NONE, this));
+                
+				ASC->TryActivateAbility(Handle);
+                
+				// 我们已经激活了能力，所以可以退出循环
+				break;
+			}
+		}
+	}
+}
+
 void ARPGEnemyCharacter::PlayHitMontage(const FName& SectionName)
 {
-	StopMovement();
-	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if(AttributeSet->HPCurrent.GetCurrentValue() == 0.f)
 	{
-		if (AnimInstance && DeathAnimMontage)
-		{
-			AnimInstance->Montage_Play(DeathAnimMontage);
-			// 设置定时器在动画结束时重新启用移动
-			FTimerHandle TimerHandle;
-			GetWorldTimerManager().SetTimer(TimerHandle, this, &ARPGEnemyCharacter::DistortActor, DeathAnimMontage->GetPlayLength(), false);
-		}
+		ActivateSpecificAbility(FRPGGameplayTags::Get().Abilities_EnemyDeath);
 		return;
 	}
-	if (AnimInstance && HitAnimMontage)
-	{
-		AnimInstance->Montage_Play(HitAnimMontage);
-		AnimInstance->Montage_JumpToSection(SectionName, HitAnimMontage);
-	}
+	ActivateSpecificAbility(FRPGGameplayTags::Get().Abilities_HitReact);
 	// 设置定时器在动画结束时重新启用移动
-	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &ARPGEnemyCharacter::RefreshMovement, HitAnimMontage->GetPlayLength(), false);
+	// FTimerHandle TimerHandle;
+	// GetWorldTimerManager().SetTimer(TimerHandle, this, &ARPGEnemyCharacter::RefreshMovement, HitAnimMontage->GetPlayLength(), false);
 }
 
 void ARPGEnemyCharacter::StopMovement() const

@@ -69,6 +69,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=Weapon)
 	FName WeaponName;
+
+	UFUNCTION()
+	void ActivateSpecificAbility(FGameplayTag AbilityTag);
 	
 protected:
 	virtual void BeginPlay() override;
@@ -94,18 +97,6 @@ protected:
 	TObjectPtr<ARPGAIController> RPGAIController;
 
 public:
-	/**
-	 * Animation Montages
-	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
-	UAnimMontage* HitAnimMontage;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
-	UAnimMontage* DeathAnimMontage;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
-	UAnimMontage* AttackAnimMontage;
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	class ARPGPlayerCharacter* PlayerCharacter;
 	
