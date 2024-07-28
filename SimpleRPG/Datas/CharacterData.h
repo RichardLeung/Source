@@ -4,6 +4,7 @@
 #include "Engine/DataTable.h"
 #include "CharacterData.generated.h"
 
+
 USTRUCT(BlueprintType)
 struct FCharacterData : public FTableRowBase
 {

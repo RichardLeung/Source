@@ -129,6 +129,8 @@ public:
 
 	void Ultimate();
 
+	void SwitchCharacterFirst();
+
 	ARPGPlayerControllerBase* GetPlayerController() const;
 
 	int32 AttackCounter = 0;
@@ -238,9 +240,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category=Montages)
 	UAnimMontage* EquipAnimMontage;
-
-
+	
 	virtual FVector GetCombatProjectileLocation() override;
-
 	
 };

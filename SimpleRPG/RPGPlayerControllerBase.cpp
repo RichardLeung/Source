@@ -70,10 +70,7 @@ void ARPGPlayerControllerBase::Attack(const FInputActionValue& Value)
 
 void ARPGPlayerControllerBase::Menu()
 {
-	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
-	{
-		ControlledCharacter->Menu();
-	}
+	K2_Menu();
 }
 
 void ARPGPlayerControllerBase::Interact()
@@ -86,10 +83,7 @@ void ARPGPlayerControllerBase::Interact()
 
 void ARPGPlayerControllerBase::Inventory()
 {
-	if (ARPGPlayerCharacter* ControlledCharacter = Cast<ARPGPlayerCharacter>(GetCharacter()))
-	{
-		ControlledCharacter->Inventory();
-	}
+	K2_Inventory();
 }
 
 void ARPGPlayerControllerBase::Skill()
@@ -106,6 +100,21 @@ void ARPGPlayerControllerBase::Ultimate()
 	{
 		ControlledCharacter->Ultimate();
 	}
+}
+
+void ARPGPlayerControllerBase::SwitchCharacterFirst()
+{
+	UE_LOG(LogTemp, Warning, TEXT("切换角色1"));
+}
+
+void ARPGPlayerControllerBase::SwitchCharacterSecond()
+{
+	UE_LOG(LogTemp, Warning, TEXT("切换角色2"));
+}
+
+void ARPGPlayerControllerBase::SwitchCharacterThird()
+{
+	UE_LOG(LogTemp, Warning, TEXT("切换角色3"));
 }
 
 bool ARPGPlayerControllerBase::GetInventoryItemData(UItemData* Item, FRPGItemData& ItemData) const

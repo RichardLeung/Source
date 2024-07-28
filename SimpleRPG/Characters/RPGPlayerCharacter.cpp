@@ -250,11 +250,6 @@ void ARPGPlayerCharacter::Test()
 	}
 }
 
-void ARPGPlayerCharacter::Inventory()
-{
-	k2_Inventory();
-}
-
 void ARPGPlayerCharacter::Skill()
 {
 	k2_Skill();
@@ -263,6 +258,11 @@ void ARPGPlayerCharacter::Skill()
 void ARPGPlayerCharacter::Ultimate()
 {
 	k2_Ultimate();
+}
+
+void ARPGPlayerCharacter::SwitchCharacterFirst()
+{
+	
 }
 
 void ARPGPlayerCharacter::Interact()

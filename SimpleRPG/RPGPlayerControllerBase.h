@@ -66,6 +66,15 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
 	UInputAction* UltimateAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* SwitchCharacterFirstAction;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* SwitchCharacterSecondAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputAction* SwitchCharacterThirdAction;
+
 	/**
 	 * Callbacks for input actions
 	 */
@@ -76,13 +85,25 @@ public:
 
 	void Menu();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void K2_Menu();
+
 	void Interact();
 
 	void Inventory();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void K2_Inventory();
+
 	void Skill();
 
 	void Ultimate();
+
+	void SwitchCharacterFirst();
+
+	void SwitchCharacterSecond();
+
+	void SwitchCharacterThird();
 
 	/** Map of all items owned by this player, from definition to data */
 	// 由此玩家拥有的所有道具的映射，从定义到数据
